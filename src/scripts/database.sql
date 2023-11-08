@@ -1,11 +1,25 @@
 /*
- * @Brief: Install and configure the Database
+* Create Database for stockapp
+* \dn show schema
 */
-
+-- Créer l'utilisateur stockapp et la base de données stock_management
 CREATE USER stockapp WITH ENCRYPTED PASSWORD 'yourpass';
 CREATE DATABASE stock_management OWNER stockapp;
--- Connect to the database stock_management
+
+-- Accorder à l'utilisateur stockapp la permission de se connecter à la base de données
+GRANT CONNECT ON DATABASE stock_management TO stockapp;
+
+-- Se connecter à la base de données stock_management
 \c stock_management
+
+-- Créer le schéma stock_schema et définir l'utilisateur stockapp comme propriétaire
+CREATE SCHEMA IF NOT EXISTS stock_schema AUTHORIZATION stockapp;
+
+-- Changer le chemin de recherche par défaut pour le schéma stock_schema
+SET search_path TO stock_schema;
+
+-- Accorder des privilèges à l'utilisateur stockapp sur toutes les tables du schéma stock_schema
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA stock_schema TO stockapp;
 
 DO $$
 BEGIN
@@ -14,26 +28,26 @@ BEGIN
     END IF;
 END $$;
 
-CREATE TABLE IF NOT EXISTS categories (
+CREATE TABLE IF NOT EXISTS stock_schema.categories (
     category_id SERIAL,
     category_name VARCHAR(255) NOT NULL,
     PRIMARY KEY (category_id)
 );
 
-CREATE TABLE IF NOT EXISTS suppliers (
+CREATE TABLE IF NOT EXISTS stock_schema.suppliers (
     supplier_id SERIAL,
     supplier_name VARCHAR(255) NOT NULL,
     PRIMARY KEY (supplier_id)
 );
 
-CREATE TABLE IF NOT EXISTS warehouses (
+CREATE TABLE IF NOT EXISTS stock_schema.warehouses (
     warehouse_id SERIAL,
     warehouse_name VARCHAR(255),
-    warehouse_location VARCHAR(255),
+    location VARCHAR(255),
     PRIMARY KEY (warehouse_id)
 );
 
-CREATE TABLE IF NOT EXISTS products (
+CREATE TABLE IF NOT EXISTS stock_schema.products (
     product_id SERIAL,
     product_name VARCHAR(255) NOT NULL,
     category_id BIGINT NOT NULL,
@@ -41,22 +55,24 @@ CREATE TABLE IF NOT EXISTS products (
     quantity INT NOT NULL,
     price INT NOT NULL,
     PRIMARY KEY (product_id),
-    FOREIGN KEY (category_id) REFERENCES categories(category_id),
-    FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id),
+    FOREIGN KEY (category_id) REFERENCES stock_schema.categories(category_id),
+    FOREIGN KEY (supplier_id) REFERENCES stock_schema.suppliers(supplier_id),
     CONSTRAINT CHK_Product CHECK (quantity >= 0 AND price >= 0)
 );
 
-CREATE TABLE IF NOT EXISTS product_warehouse (
+CREATE TABLE IF NOT EXISTS stock_schema.product_warehouse (
     product_warehouse_id SERIAL,
     product_id BIGINT NOT NULL,
     warehouse_id BIGINT NOT NULL,
+    quantity INT NOT NULL,
     PRIMARY KEY (product_warehouse_id),
-    FOREIGN KEY (product_id) REFERENCES products(product_id),
-    FOREIGN KEY (warehouse_id) REFERENCES warehouses(warehouse_id)
+    FOREIGN KEY (product_id) REFERENCES stock_schema.products(product_id),
+    FOREIGN KEY (warehouse_id) REFERENCES stock_schema.warehouses(warehouse_id),
+    CONSTRAINT CHK_Product_Warehouse CHECK (quantity >= 0)
 );
 
 
-CREATE TABLE IF NOT EXISTS employees (
+CREATE TABLE IF NOT EXISTS stock_schema.employees (
     employee_id SERIAL,
     employee_name VARCHAR(255) NOT NULL,
     department INT NOT NULL,
@@ -64,10 +80,10 @@ CREATE TABLE IF NOT EXISTS employees (
     phone_number VARCHAR(255) NOT NULL,
     warehouse_id BIGINT NOT NULL,
     PRIMARY KEY (employee_id),
-    FOREIGN KEY (warehouse_id) REFERENCES warehouses(warehouse_id)
+    FOREIGN KEY (warehouse_id) REFERENCES stock_schema.warehouses(warehouse_id)
 );
 
-CREATE TABLE IF NOT EXISTS transactions (
+CREATE TABLE IF NOT EXISTS stock_schema.transactions (
     transaction_id SERIAL,
     product_id BIGINT NOT NULL,
     transaction_type tr_type NOT NULL,
@@ -75,40 +91,55 @@ CREATE TABLE IF NOT EXISTS transactions (
     transaction_date DATE NOT NULL,
     employee_id BIGINT NOT NULL,
     PRIMARY KEY (transaction_id),
-    FOREIGN KEY (product_id) REFERENCES products(product_id),
-    FOREIGN KEY (employee_id) REFERENCES employees(employee_id),
+    FOREIGN KEY (product_id) REFERENCES stock_schema.products(product_id),
+    FOREIGN KEY (employee_id) REFERENCES stock_schema.employees(employee_id),
     CONSTRAINT CHK_Transaction CHECK (quantity_changed >= 0)
 );
 
-CREATE TABLE IF NOT EXISTS orders (
+CREATE TABLE IF NOT EXISTS stock_schema.orders (
     order_id SERIAL,
     order_date DATE NOT NULL,
     supplier_id BIGINT NOT NULL,
     total_amount INT NOT NULL,
     PRIMARY KEY (order_id),
-    FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)
+    FOREIGN KEY (supplier_id) REFERENCES stock_schema.suppliers(supplier_id)
 );
 
-CREATE TABLE IF NOT EXISTS order_details (
+CREATE TABLE IF NOT EXISTS stock_schema.order_details (
     order_detail_id SERIAL,
     order_id BIGINT NOT NULL,
     product_id BIGINT NOT NULL,
     quantity INT NOT NULL,
     unit_price FLOAT NOT NULL,
     PRIMARY KEY (order_detail_id),
-    FOREIGN KEY (order_id) REFERENCES orders(order_id),
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
+    FOREIGN KEY (order_id) REFERENCES stock_schema.orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES stock_schema.products(product_id)
 );
 
 /* 
 * Archivées les transactions qui ont plus d'un an
 */
 -- Ensure the archived_transactions table exists with the correct structure
-CREATE TABLE IF NOT EXISTS archived_transactions (
+CREATE TABLE IF NOT EXISTS stock_schema.archived_transactions (
     id SERIAL PRIMARY KEY,
     transaction_id BIGINT NOT NULL,
     date_transac DATE NOT NULL,
     transaction_type tr_type NOT NULL
 );
 
--- Create or replace the procedure
+/*
+* On s'assure que les tables dans le schéma sont juste et les permissions aussi
+*/
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA stock_schema TO stockapp;
+
+
+\dn 
+
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'stock_schema';
+
+SELECT grantor, grantee, table_catalog, table_schema, table_name, privilege_type, is_grantable, with_hierarchy
+FROM information_schema.table_privileges
+WHERE grantee = 'stockapp' AND table_schema = 'stock_schema';;
