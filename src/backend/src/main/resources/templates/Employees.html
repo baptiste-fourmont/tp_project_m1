@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="FR">
+    <head>
+        <title>Liste des employés</title>
+        <link rel="stylesheet" href="/css/pico.min.css">
+        <link rel="stylesheet" href="/css/extra_css.css">
+    </head>
+
+    <body>
+
+        <div th:if="${session['alertMessage']}" id="alert-danger">
+            <p th:text="${session['alertMessage']}"></p>
+        </div>
+
+        <div id = "title">
+            <h1>Liste des employés</h1>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Prénom</th>
+                <th>Nom de famille</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.id}">ID</td>
+                <td th:text="${employee.firstName}">Prénom</td>
+                <td th:text="${employee.lastName}">Nom de famille</td>
+                <td th:text="${employee.email}">Email</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </body>
+
+</html>
