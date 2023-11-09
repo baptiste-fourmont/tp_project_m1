@@ -20,6 +20,28 @@ CALL logging_transaction();
 -- Check the content of the archived_transactions table
 SELECT * FROM stock_schema.archived_transactions;
 
+-- Contrôle de la mise à jour de prix
+CREATE TABLE stock_schema.product_price_history (
+    product_id BIGINT,
+    old_price INT,
+    new_price INT,
+    change_date DATE
+);
+
+CREATE OR REPLACE FUNCTION update_product_price()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO stock_schema.product_price_history (product_id, old_price, new_price, change_date)
+    VALUES (NEW.product_id, OLD.price, NEW.price, CURRENT_DATE);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trig_update_product_price
+AFTER UPDATE ON stock_schema.products
+FOR EACH ROW
+EXECUTE FUNCTION update_product_price();
+
 
 CREATE OR REPLACE FUNCTION add_to_stock(product_id bigint, quantity_added int) RETURNS void AS $$
 BEGIN
