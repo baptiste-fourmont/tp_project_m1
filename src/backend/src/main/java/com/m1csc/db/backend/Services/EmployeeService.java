@@ -2,7 +2,7 @@ package com.m1csc.db.backend.Services;
 
 import com.m1csc.db.backend.Entities.EmployeeEntity;
 import com.m1csc.db.backend.Repositories.EmployeeRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
