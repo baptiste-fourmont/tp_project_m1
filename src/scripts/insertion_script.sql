@@ -28,10 +28,10 @@ INSERT INTO stock_schema.warehouses (warehouse_name, location) VALUES
     ('Warehouse B', 'Location 2');
 
 -- Insertion de données dans la table "employees"
-INSERT INTO stock_schema.employees (employee_name, department, email, phone_number, warehouse_id) VALUES
-    ('Employee 1', 1, 'employee1@example.com', '123-456-7890', 1),
-    ('Employee 2', 2, 'employee2@example.com', '987-654-3210', 2),
-    ('Employee 3', 1, 'employee3@example.com', '555-555-5555', 1);
+INSERT INTO stock_schema.employees (employee_name, department, email, warehouse_id) VALUES
+    ('Employee 1', 1, 'employee1@example.com', 1),
+    ('Employee 2', 2, 'employee2@example.com', 2),
+    ('Employee 3', 1, 'employee3@example.com', 1);
 
 -- Insertion de données dans la table "orders"
 INSERT INTO stock_schema.orders (order_date, supplier_id, total_amount) VALUES
