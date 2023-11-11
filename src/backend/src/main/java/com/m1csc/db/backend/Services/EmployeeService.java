@@ -1,7 +1,10 @@
 package com.m1csc.db.backend.Services;
 
 import com.m1csc.db.backend.Entities.EmployeeEntity;
+import com.m1csc.db.backend.Entities.WarehouseEntity;
 import com.m1csc.db.backend.Repositories.EmployeeRepository;
+import com.m1csc.db.backend.Repositories.WarehouseRepository;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,8 @@ import java.util.Optional;
 public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private WarehouseRepository warehouseRepository;
 
     public List<EmployeeEntity> getEmployees() {
         return employeeRepository.findAll();
@@ -45,5 +50,9 @@ public class EmployeeService {
 
     public void deleteEmployee(EmployeeEntity employee) {
         employeeRepository.delete(employee);
+    }
+
+    public List<WarehouseEntity> getWarehouses(){
+        return warehouseRepository.findAll();
     }
 }

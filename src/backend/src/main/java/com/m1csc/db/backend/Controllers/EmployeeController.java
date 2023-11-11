@@ -19,6 +19,7 @@ public class EmployeeController {
     @GetMapping("/new")
     public String showEmployeeForm(Model model) {
         model.addAttribute("employee", new EmployeeEntity());
+        model.addAttribute("warehouses", employeeService.getWarehouses());
         return "addEmployee";
     }
 
@@ -31,6 +32,7 @@ public class EmployeeController {
     @GetMapping("")
     public String showEmployees(Model model) {
         model.addAttribute("employees", employeeService.getEmployees());
+        model.addAttribute("warehouses", employeeService.getWarehouses());
         return "Employees";
     }
 
@@ -39,6 +41,7 @@ public class EmployeeController {
         EmployeeEntity employee = employeeService.getEmployeeById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("employee", employee);
+        model.addAttribute("warehouses", employeeService.getWarehouses());
         return "editEmployee";
     }
 
