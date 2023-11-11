@@ -4,6 +4,7 @@
 */
 -- Créer l'utilisateur stockapp et la base de données stock_management
 CREATE USER stockapp WITH ENCRYPTED PASSWORD 'yourpass';
+DROP DATABASE IF NOT EXISTS stock_management;
 CREATE DATABASE stock_management OWNER stockapp;
 
 -- Accorder à l'utilisateur stockapp la permission de se connecter à la base de données
@@ -27,6 +28,19 @@ BEGIN
         CREATE TYPE tr_type AS ENUM('BUY', 'SELL');
     END IF;
 END $$;
+
+CREATE TABLE IF NOT EXISTS audit_log (
+    id serial PRIMARY KEY,
+    event_type text,
+    schema_name text,
+    table_name text,
+    user_name text,
+    client_addr inet,
+    client_port integer,
+    log_time timestamp,
+    old_values jsonb,
+    new_values jsonb
+);
 
 CREATE TABLE IF NOT EXISTS stock_schema.categories (
     category_id SERIAL,
@@ -126,6 +140,17 @@ CREATE TABLE IF NOT EXISTS stock_schema.archived_transactions (
     date_transac DATE NOT NULL,
     transaction_type tr_type NOT NULL
 );
+
+
+/*
+* Optimisation B-Index
+*/
+
+-- Indexation des clés étrangères
+CREATE INDEX idx_products_category_id ON stock_schema.products USING btree (category_id);
+CREATE INDEX idx_products_supplier_id ON stock_schema.products USING btree (supplier_id);
+CREATE INDEX idx_product_warehouse_product_id ON stock_schema.product_warehouse USING btree (product_id);
+CREATE INDEX idx_product_warehouse_warehouse_id ON stock_schema.product_warehouse USING btree (warehouse_id);
 
 /*
 * On s'assure que les tables dans le schéma sont juste et les permissions aussi

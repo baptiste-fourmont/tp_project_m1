@@ -1,0 +1,21 @@
+#Utilisation de pgxn
+pgxn install pgaudit
+
+#Ajouter paramètres de config spécifiques à pgaudit dans "postgresql.conf" ou "postgresql.auto.conf" pour la bd :
+#Activer le suivi d'audit pour toutes les modifications sur la table transactions
+shared_preload_libraries = 'pgaudit'
+pgaudit.log = 'all, -misc'
+pgaudit.log_catalog = on
+pgaudit.log_relation = 'transactions'
+
+
+
+
+#vérifier que l'état (extstate) est à 'u' pour signifier que l'extension est activée 
+#dans postgre :
+SELECT * FROM pg_extension WHERE extname = 'pgaudit';
+
+#dans postgresql.conf ou postgresql.auto.conf, ajouter fichier log vers lequel seront enregistrés les logs :
+pgaudit.logfile = '/chemin/vers/votre/fichier_audit.log'
+
+

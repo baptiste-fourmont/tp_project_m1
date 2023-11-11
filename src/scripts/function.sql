@@ -43,28 +43,51 @@ FOR EACH ROW
 EXECUTE FUNCTION update_product_price();
 
 
-CREATE OR REPLACE FUNCTION add_to_stock(product_id bigint, quantity_added int) RETURNS void AS $$
+CREATE OR REPLACE FUNCTION add_to_stock(product_id BIGINT, quantity_added INT) 
+RETURNS void AS $$
 BEGIN
-  UPDATE stock_schema.products SET quantity = quantity + quantity_added WHERE product_id = product_id;
-  COMMIT;
+    IF quantity_added < 0 THEN
+        RAISE EXCEPTION 'Quantity to add must be positive';
+    END IF;
+
+    UPDATE stock_schema.products 
+    SET quantity = quantity + quantity_added 
+    WHERE product_id = product_id;
 END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION remove_from_stock(product_id bigint, quantity_removed int) RETURNS void AS $$
+CREATE OR REPLACE FUNCTION remove_from_stock(product_id BIGINT, quantity_removed INT) 
+RETURNS void AS $$
 BEGIN
-  UPDATE stock_schema.products SET quantity = quantity - quantity_removed WHERE product_id = product_id;
-  COMMIT;
+    IF quantity_removed < 0 THEN
+        RAISE EXCEPTION 'Quantity to remove must be positive';
+    END IF;
+
+    UPDATE stock_schema.products 
+    SET quantity = quantity - quantity_removed 
+    WHERE product_id = product_id;
+
+    IF (SELECT quantity FROM stock_schema.products WHERE product_id = product_id) < 0 THEN
+        RAISE EXCEPTION 'Insufficient stock for this operation';
+    END IF;
 END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION update_stock(product_id bigint, new_quantity int) RETURNS void AS $$
+CREATE OR REPLACE FUNCTION update_stock(product_id BIGINT, new_quantity INT) 
+RETURNS void AS $$
 BEGIN
-  UPDATE stock_schema.products SET quantity = new_quantity WHERE product_id = product_id;
-  COMMIT;
+    IF new_quantity < 0 THEN
+        RAISE EXCEPTION 'New quantity must be non-negative';
+    END IF;
+
+    UPDATE stock_schema.products 
+    SET quantity = new_quantity 
+    WHERE product_id = product_id;
 END;
 $$ LANGUAGE plpgsql;
+
 
 -- Création d'un trigger pour contrôler le stock après chaque transaction
 CREATE OR REPLACE FUNCTION update_product_quantity()
