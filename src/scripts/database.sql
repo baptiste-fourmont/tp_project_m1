@@ -127,6 +127,17 @@ CREATE TABLE IF NOT EXISTS stock_schema.archived_transactions (
     transaction_type tr_type NOT NULL
 );
 
+
+/*
+* Optimisation B-Index
+*/
+
+-- Indexation des clés étrangères
+CREATE INDEX idx_products_category_id ON stock_schema.products USING btree (category_id);
+CREATE INDEX idx_products_supplier_id ON stock_schema.products USING btree (supplier_id);
+CREATE INDEX idx_product_warehouse_product_id ON stock_schema.product_warehouse USING btree (product_id);
+CREATE INDEX idx_product_warehouse_warehouse_id ON stock_schema.product_warehouse USING btree (warehouse_id);
+
 /*
 * On s'assure que les tables dans le schéma sont juste et les permissions aussi
 */
