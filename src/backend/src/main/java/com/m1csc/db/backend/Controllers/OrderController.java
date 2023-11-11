@@ -20,18 +20,20 @@ public class OrderController {
     @GetMapping("/new")
     public String showOrderForm(Model model) {
         model.addAttribute("order", new OrderEntity());
+        model.addAttribute("suppliers", orderService.getSuppliers());
         return "OrderForm";
     }
 
     @PostMapping("")
     public String createOrder(@ModelAttribute("order") OrderEntity order) {
         orderService.createOrder(order);
-        return "redirect:/Orders";
+        return "redirect:/orders";
     }
 
     @GetMapping("")
     public String showOrders(Model model) {
-        model.addAttribute("Orders", orderService.getOrders());
+        model.addAttribute("orders", orderService.getOrders());
+        model.addAttribute("suppliers", orderService.getSuppliers());
         return "Orders";
     }
 
@@ -48,10 +50,10 @@ public class OrderController {
         try {
             orderService.getOrderById(order.getIdOrder()).get();
         } catch (Exception e) {
-            return "redirect:/Orders";
+            return "redirect:/orders";
         }
         orderService.updateOrder(order);
-        return "redirect:/Orders";
+        return "redirect:/orders";
     }
 
     @GetMapping("/remove/{id}")
@@ -61,10 +63,10 @@ public class OrderController {
             order = orderService.getOrderById(id).get();
             orderService.deleteOrder(order);
         } catch (Exception e) {
-            return "redirect:/Orders";
+            return "redirect:/orders";
         }
 
-        return "redirect:/Orders";
+        return "redirect:/orders";
     }
 
 
