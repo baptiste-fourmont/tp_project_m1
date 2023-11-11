@@ -1,13 +1,14 @@
 #Utilisation de pgxn
 pgxn install pgaudit
 
-#Dans le fichier postgresql.conf ajouter :
-shared_preload_libraries = 'pgaudit'
-
 #Ajouter paramètres de config spécifiques à pgaudit dans "postgresql.conf" ou "postgresql.auto.conf" pour la bd :
 #Activer le suivi d'audit pour toutes les modifications sur la table transactions
+shared_preload_libraries = 'pgaudit'
 pgaudit.log = 'all, -misc'
 pgaudit.log_catalog = on
+pgaudit.log_relation = 'transactions'
+
+
 
 
 #vérifier que l'état (extstate) est à 'u' pour signifier que l'extension est activée 
