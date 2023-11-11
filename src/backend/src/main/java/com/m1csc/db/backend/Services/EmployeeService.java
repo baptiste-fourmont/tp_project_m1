@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +20,7 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Optional<EmployeeEntity> getEmployeeById(BigInteger id) {
+    public Optional<EmployeeEntity> getEmployeeById(Long id) {
         return employeeRepository.findById(id);
     }
 

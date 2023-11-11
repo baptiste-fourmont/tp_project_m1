@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Edit Order</title>
+	<link rel="stylesheet" href="/css/pico.min.css">
+    <link rel="stylesheet" href="/css/extra_css.css">
+</head>
+<body>
+
+<h2>Edit Order</h2>
+
+<form th:action="@{/orders/edit}" method="post" th:object="${order}">
+    <input type="hidden" th:field="*{idOrder}" />
+
+    <label for="dateOrder">Order Date:</label>
+    <input type="date" id="dateOrder" name="dateOrder" th:field="*{dateOrder}" required />
+
+    <!-- Add dropdown for associated entity (SupplierEntity) -->
+    <label for="supplier">Supplier:</label>
+    <select id="supplier" name="supplier.idSupplier" th:field="*{supplier.idSupplier}">
+        <option th:each="supplier : ${suppliers}" th:value="${supplier.idSupplier}" th:text="${supplier.name}"></option>
+    </select>
+
+    <button type="submit">Update</button>
+</form>
+
+<a th:href="@{/orders}">Back to Orders</a>
+
+</body>
+</html>

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.m1csc.db.backend.Repositories.WarehouseRepository;
 
-import java.math.BigInteger;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +44,7 @@ public class WarehouseService {
         warehouseRepository.delete(warehouse);
     }
 
-    public Optional<WarehouseEntity> getWarehouseById(BigInteger id) {
+    public Optional<WarehouseEntity> getWarehouseById(Long id) {
         return warehouseRepository.findById(id);
     }
 }

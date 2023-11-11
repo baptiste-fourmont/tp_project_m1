@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
+
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
@@ -47,11 +47,11 @@ public class TransactionService {
         transactionRepository.delete(transaction);
     }
 
-    public void deleteTransactionById(BigInteger id) {
+    public void deleteTransactionById(Long id) {
         transactionRepository.deleteById(id);
     }
 
-    public Optional<TransactionEntity> getTransactionById(BigInteger idTransaction) {
+    public Optional<TransactionEntity> getTransactionById(Long idTransaction) {
         return transactionRepository.findById(idTransaction);
     }
 }

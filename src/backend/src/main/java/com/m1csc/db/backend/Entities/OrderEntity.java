@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
+
 import java.sql.Date;
 
 @Data
@@ -18,8 +18,8 @@ import java.sql.Date;
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "order_id")
-    private BigInteger idOrder;
+    @Column(name= "order_id", columnDefinition="serial")
+    private Long idOrder;
 
     @Column (name = "order_date")
     private Date dateOrder;

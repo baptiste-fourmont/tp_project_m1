@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
+
 
 @Controller
 @RequestMapping("/orders")
@@ -36,7 +36,7 @@ public class OrderController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditOrderForm(@PathVariable BigInteger id, Model model) {
+    public String showEditOrderForm(@PathVariable Long id, Model model) {
         OrderEntity order = orderService.getOrderById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("order", order);
@@ -54,8 +54,8 @@ public class OrderController {
         return "redirect:/Orders";
     }
 
-    @DeleteMapping("/remove/{id}")
-    public String deleteOrder(@PathVariable BigInteger id) {
+    @GetMapping("/remove/{id}")
+    public String deleteOrder(@PathVariable Long id) {
         OrderEntity order = null;
         try{
             order = orderService.getOrderById(id).get();

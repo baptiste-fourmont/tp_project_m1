@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.m1csc.db.backend.Services.ProductWarehouseService;
 
-import java.math.BigInteger;
+
 
 @Controller
 @RequestMapping("/product/warehouse")
@@ -20,11 +20,15 @@ public class ProductWarehouseController {
 
     @GetMapping("")
     public String showProductWarehouses() {
+
         return "ProductWarehouses";
     }
 
     @GetMapping("/new")
-    public String showProductWarehouseForm() {
+    public String showProductWarehouseForm(Model model) {
+        model.addAttribute("productWarehouse", new ProductWarehouseEntity());
+        model.addAttribute("products", productWarehouseService.getAllProducts());
+        model.addAttribute("warehouses", productWarehouseService.getAllWarehouses());
         return "ProductWarehouseForm";
     }
 
@@ -35,8 +39,8 @@ public class ProductWarehouseController {
     }
 
 
-    @DeleteMapping("/remove/{id}")
-    public String deleteProductWarehouse(@PathVariable BigInteger id) {
+    @GetMapping("/remove/{id}")
+    public String deleteProductWarehouse(@PathVariable Long id) {
         ProductWarehouseEntity productWarehouse = null;
 
         try{
@@ -50,10 +54,12 @@ public class ProductWarehouseController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditProductWarehouseForm(@PathVariable BigInteger id, Model model) {
+    public String showEditProductWarehouseForm(@PathVariable Long id, Model model) {
         ProductWarehouseEntity productWarehouse = productWarehouseService.getProductWarehouseById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Produit introuvable avec l'ID: " + id));
         model.addAttribute("productWarehouse", productWarehouse);
+        model.addAttribute("products", productWarehouseService.getAllProducts());
+        model.addAttribute("warehouses", productWarehouseService.getAllWarehouses());
         return "editProductWarehouse";
     }
 

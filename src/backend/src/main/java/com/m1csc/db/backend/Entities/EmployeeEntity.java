@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
+
 
 @Data
 @Builder
@@ -17,14 +17,14 @@ import java.math.BigInteger;
 public class EmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "employee_id")
-    private BigInteger idEmployee;
+    @Column(name= "employee_id", columnDefinition="serial")
+    private Long idEmployee;
 
     @Column(name = "employee_name")
     private String name;
 
     @Column(name = "department")
-    private String department;
+    private Integer department;
 
     @Column(name = "email")
     private String email;

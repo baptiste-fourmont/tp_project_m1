@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
+
 
 @Data
 @Builder
@@ -19,8 +19,8 @@ public class WarehouseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "warehouse_id")
-    private BigInteger idWarehouse;
+    @Column(name= "warehouse_id", columnDefinition="serial")
+    private Long idWarehouse;
 
     @Column(name = "warehouse_name")
     private String name;

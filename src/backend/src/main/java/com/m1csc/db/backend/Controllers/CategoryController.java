@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.m1csc.db.backend.Services.CategoryService;
 
-import java.math.BigInteger;
+
 
 @Controller
 @RequestMapping("/categories")
@@ -36,7 +36,7 @@ public class CategoryController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditCategoryForm(@PathVariable BigInteger id, Model model) {
+    public String showEditCategoryForm(@PathVariable Long id, Model model) {
         CategoryEntity category = categoryService.getCategoryById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("category", category);
@@ -54,8 +54,8 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-    @DeleteMapping("/remove/{id}")
-    public String deleteCategory(@PathVariable BigInteger id) {
+    @GetMapping("/remove/{id}")
+    public String deleteCategory(@PathVariable Long id) {
         CategoryEntity category = null;
         try{
             category = categoryService.getCategoryById(id).get();

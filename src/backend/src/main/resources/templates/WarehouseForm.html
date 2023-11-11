@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Create Warehouse</title>
+	<link rel="stylesheet" href="/css/pico.min.css">
+    <link rel="stylesheet" href="/css/extra_css.css">
+</head>
+<body>
+
+<h2>Create Warehouse</h2>
+
+<form th:action="@{/warehouses}" method="post" th:object="${warehouse}">
+    <!-- Include fields for warehouse properties -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:field="*{name}" required />
+
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" th:field="*{location}" required />
+
+    <button type="submit">Create</button>
+</form>
+
+</body>
+</html>

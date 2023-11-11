@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
+
 
 @Controller
 @RequestMapping("/products")
@@ -36,11 +36,11 @@ public class ProductController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditEmployeeForm(@PathVariable BigInteger id, Model model) {
+    public String showEditEmployeeForm(@PathVariable Long id, Model model) {
         ProductEntity product = productService.getProductById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Produit non trouvé avec l'ID: " + id));
         model.addAttribute("product", product);
-        return "editProduct";
+        return "editProduct.html";
     }
 
     @PostMapping("/edit")
@@ -54,8 +54,8 @@ public class ProductController {
         return "redirect:/products";
     }
 
-    @DeleteMapping("/remove/{id}")
-    public String deleteProduct(@PathVariable BigInteger id) {
+    @GetMapping("/remove/{id}")
+    public String deleteProduct(@PathVariable Long id) {
         ProductEntity product = null;
 
         try{

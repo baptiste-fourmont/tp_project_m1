@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Create Product Warehouse</title>
+	<link rel="stylesheet" href="/css/pico.min.css">
+    <link rel="stylesheet" href="/css/extra_css.css">
+</head>
+<body>
+
+<h2>Create Product Warehouse</h2>
+
+<form th:action="@{/product/warehouse}" method="put" th:object="${productWarehouse}">
+    <!-- Include fields for product and warehouse selection -->
+    <label for="product">Product:</label>
+    <select id="product" name="product.idProduct" th:field="*{product.idProduct}">
+        <option th:each="product : ${products}" th:value="${product.idProduct}" th:text="${product.name}"></option>
+    </select>
+
+    <label for="warehouse">Warehouse:</label>
+    <select id="warehouse" name="warehouse.idWarehouse" th:field="*{warehouse.idWarehouse}">
+        <option th:each="warehouse : ${warehouses}" th:value="${warehouse.idWarehouse}" th:text="${warehouse.name}"></option>
+    </select>
+
+    <button type="submit">Create</button>
+</form>
+
+</body>
+</html>

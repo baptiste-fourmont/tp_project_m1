@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +21,7 @@ public class SupplierService {
         return supplierRepository.findAll();
     }
 
-    public Optional<SupplierEntity> getSupplierById(BigInteger id) {
+    public Optional<SupplierEntity> getSupplierById(Long id) {
         return supplierRepository.findById(id);
     }
 
@@ -34,7 +34,6 @@ public class SupplierService {
 
         if (_supplier != null) {
             _supplier.setName(supplier.getName());
-            _supplier.setAddress(supplier.getAddress());
             _supplier.setIdSupplier(supplier.getIdSupplier());
             supplierRepository.save(_supplier);
         }

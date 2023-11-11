@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
+
 
 @Data
 @Builder
@@ -17,8 +17,8 @@ import java.math.BigInteger;
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "product_id")
-    private BigInteger idProduct;
+    @Column(name= "product_id", columnDefinition="serial")
+    private Long idProduct;
 
     @Column(name = "product_name")
     private String name;
@@ -27,10 +27,10 @@ public class ProductEntity {
     private Integer quantity;
 
     @Column(name = "price")
-    private Double price;
+    private Integer price;
 
     @OneToOne
-    @JoinColumn(name = "categorie_id")
+    @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
     @OneToOne

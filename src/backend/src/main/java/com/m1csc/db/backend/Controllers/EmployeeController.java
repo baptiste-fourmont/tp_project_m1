@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
+
 
 @Controller
 @RequestMapping("/employees")
@@ -19,7 +19,7 @@ public class EmployeeController {
     @GetMapping("/new")
     public String showEmployeeForm(Model model) {
         model.addAttribute("employee", new EmployeeEntity());
-        return "EmployeeForm";
+        return "addEmployee";
     }
 
     @PostMapping("")
@@ -35,7 +35,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditEmployeeForm(@PathVariable BigInteger id, Model model) {
+    public String showEditEmployeeForm(@PathVariable Long id, Model model) {
         EmployeeEntity employee = employeeService.getEmployeeById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("employee", employee);
@@ -53,8 +53,8 @@ public class EmployeeController {
         return "redirect:/employees";
     }
 
-    @DeleteMapping("/remove/{id}")
-    public String deleteEmployee(@PathVariable BigInteger id) {
+    @GetMapping("/remove/{id}")
+    public String deleteEmployee(@PathVariable Long id) {
         EmployeeEntity employee = null;
 
         try{

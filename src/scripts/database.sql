@@ -131,7 +131,10 @@ CREATE TABLE IF NOT EXISTS stock_schema.archived_transactions (
 * On s'assure que les tables dans le schéma sont juste et les permissions aussi
 */
 
+-- Droits de base
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA stock_schema TO stockapp;
+-- Droits necessaires 
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA stock_schema TO stockapp;
 
 
 \dn 

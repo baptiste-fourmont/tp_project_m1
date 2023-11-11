@@ -2,22 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="FR">
     <head>
         <title>Modifier un employé</title>
-        <link rel="stylesheet" href="/css/pico.min.css">
-        <link rel="stylesheet" href="/css/extra_css.css">
+	<link rel="stylesheet" href="/css/pico.min.css">
+    <link rel="stylesheet" href="/css/extra_css.css">
     </head>
     <body>
-    <h1>Modifier un employé</h1>
-        <form th:action="@{/employees/{id}/edit(id=${employee.id})}" method="post" th:object="${employee}">
-            <label for="firstName">Prénom:</label>
-            <input type="text" id="firstName" name="firstName" th:field="*{firstName}"><br><br>
+        <form th:object="${employee}" th:action="@{/employees/save}" method="post">
+            <input type="hidden" th:field="*{idEmployee}" />
 
-            <label for="lastName">Nom de famille:</label>
-            <input type="text" id="lastName" name="lastName" th:field="*{lastName}"><br><br>
+            <label for="name">Name:</label>
+            <input type="text" id="name" th:field="*{name}" />
+
+            <label for="department">Department:</label>
+            <input type="text" id="department" th:field="*{department}" />
 
             <label for="email">Email:</label>
-            <input type="text" id="email" name="email" th:field="*{email}"><br><br>
+            <input type="text" id="email" th:field="*{email}" />
 
-            <input type="submit" value="Modifier">
+            <label for="warehouse">Warehouse:</label>
+            <select id="warehouse" th:field="*{warehouse}">
+                <option th:each="wh : ${warehouses}" th:value="${wh}" th:text="${wh.name}"></option>
+            </select>
+
+            <button type="submit">Save</button>
         </form>
     </body>
 </html>

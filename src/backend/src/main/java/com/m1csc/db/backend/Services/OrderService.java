@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +43,7 @@ public class OrderService {
         orderRepository.delete(order);
     }
 
-    public Optional<OrderEntity> getOrderById(BigInteger id) {
+    public Optional<OrderEntity> getOrderById(Long id) {
         return orderRepository.findById(id);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +41,7 @@ public class CategoryService {
         categoryRepository.delete(category);
     }
 
-    public Optional<CategoryEntity> getCategoryById(BigInteger id) {
+    public Optional<CategoryEntity> getCategoryById(Long id) {
         return categoryRepository.findById(id);
     }
 }

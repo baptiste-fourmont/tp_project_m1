@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Transactions</title>
+	<link rel="stylesheet" href="/css/pico.min.css">
+    <link rel="stylesheet" href="/css/extra_css.css">
+</head>
+<body>
+
+<h2>Transactions</h2>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Quantity Changed</th>
+        <th>Type</th>
+        <th>Product</th>
+        <th>Employee</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="transaction : ${transactions}">
+        <td th:text="${transaction.idTransaction}"></td>
+        <td th:text="${transaction.dateTransaction}"></td>
+        <td th:text="${transaction.quantityChanged}"></td>
+        <td th:text="${transaction.transactionType}"></td>
+        <td th:text="${transaction.product.name}"></td>
+        <td th:text="${transaction.employee.name}"></td>
+        <td>
+            <a th:href="@{'/transactions/edit/' + ${transaction.idTransaction}}">Edit</a>
+            <a th:href="@{'/transactions/remove/' + ${transaction.idTransaction}}" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/transactions/new}">Add New Transaction</a>
+
+</body>
+</html>

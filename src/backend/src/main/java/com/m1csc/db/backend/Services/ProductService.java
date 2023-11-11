@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +46,7 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public Optional<ProductEntity> getProductById(BigInteger id) {
+    public Optional<ProductEntity> getProductById(Long id) {
         return productRepository.findById(id);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
+
 
 @Controller
 @RequestMapping("/warehouses")
@@ -36,7 +36,7 @@ public class WarehouseController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditWarehouseForm(@PathVariable BigInteger id, Model model) {
+    public String showEditWarehouseForm(@PathVariable Long id, Model model) {
         WarehouseEntity warehouse = warehouseService.getWarehouseById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("warehouse", warehouse);
@@ -54,8 +54,8 @@ public class WarehouseController {
         return "redirect:/Warehouses";
     }
 
-    @DeleteMapping("/remove/{id}")
-    public String deleteWarehouse(@PathVariable BigInteger id) {
+    @GetMapping("/remove/{id}")
+    public String deleteWarehouse(@PathVariable Long id) {
         WarehouseEntity warehouse = null;
         try{
             warehouse = warehouseService.getWarehouseById(id).get();

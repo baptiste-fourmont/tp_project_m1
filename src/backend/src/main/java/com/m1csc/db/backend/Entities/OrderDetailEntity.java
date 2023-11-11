@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
+
 
 @Data
 @Builder
@@ -17,8 +17,8 @@ import java.math.BigInteger;
 public class OrderDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "order_detail_id")
-    private BigInteger idOrderDetail;
+    @Column(name= "order_detail_id", columnDefinition="serial")
+    private Long idOrderDetail;
 
     @Column(name = "quantity")
     private Integer quantity;

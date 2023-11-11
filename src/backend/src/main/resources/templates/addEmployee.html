@@ -2,22 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="FR">
     <head>
         <title>Créer un employé</title>
-        <link rel="stylesheet" href="/css/pico.min.css">
-        <link rel="stylesheet" href="/css/extra_css.css">
+	<link rel="stylesheet" href="/css/pico.min.css">
+    <link rel="stylesheet" href="/css/extra_css.css">
     </head>
     <body>
     <h1>Créer un employé</h1>
-        <form th:action="@{/employees}" method="post" th:object="${employee}">
-            <label for="firstName">Prénom:</label>
-            <input type="text" id="firstName" name="firstName" th:field="*{firstName}"><br><br>
+        <form th:action="@{/employees}" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required />
 
-            <label for="lastName">Nom de famille:</label>
-            <input type="text" id="lastName" name="lastName" th:field="*{lastName}"><br><br>
+            <label for="department">Department:</label>
+            <input type="text" id="department" name="department" required />
 
             <label for="email">Email:</label>
-            <input type="text" id="email" name="email" th:field="*{email}"><br><br>
+            <input type="text" id="email" name="email" required />
 
-            <input type="submit" value="Créer">
+            <label for="warehouse">Warehouse:</label>
+            <select id="warehouse" name="warehouse" required>
+                <option th:each="wh : ${warehouses}" th:value="${wh.idWarehouse}" th:text="${wh.name}"></option>
+            </select>
+
+            <button type="submit">Add Employee</button>
         </form>
     </body>
 </html>

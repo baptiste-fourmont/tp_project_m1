@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Orders</title>
+	<link rel="stylesheet" href="/css/pico.min.css">
+    <link rel="stylesheet" href="/css/extra_css.css">
+</head>
+<body>
+
+<h2>Orders</h2>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Order Date</th>
+        <th>Supplier</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.idOrder}"></td>
+        <td th:text="${order.dateOrder}"></td>
+        <td th:text="${order.supplier.name}"></td>
+        <td>
+            <a th:href="@{'/orders/edit/' + ${order.idOrder}}">Edit</a>
+            <a th:href="@{'/orders/remove/' + ${order.idOrder}}" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/orders/new}">Add New Order</a>
+
+</body>
+</html>

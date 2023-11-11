@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
 
 @Data
 @Builder
@@ -16,10 +15,11 @@ import java.math.BigInteger;
 @AllArgsConstructor
 public class CategoryEntity {
     @Id
+    @Column(name= "category_id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "category_id")
-    private BigInteger idCategory;
+    private Long idCategory;
 
     @Column(name = "category_name")
     private String name;
+
 }

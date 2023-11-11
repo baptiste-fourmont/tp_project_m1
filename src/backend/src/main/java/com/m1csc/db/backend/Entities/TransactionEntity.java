@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
+
 import java.sql.Date;
 
 @Data
@@ -20,8 +20,8 @@ import java.sql.Date;
 public class TransactionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "transaction_id")
-    private BigInteger idTransaction;
+    @Column(name= "transaction_id", columnDefinition="serial")
+    private Long idTransaction;
 
     @Column(name = "transaction_date")
     private Date dateTransaction;
@@ -30,7 +30,7 @@ public class TransactionEntity {
     private Integer quantityChanged;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "tr_type")
+    @Column(name = "transaction_type")
     private TransactionType transactionType;
 
     @OneToOne

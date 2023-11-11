@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
+
 
 @Controller
 @RequestMapping("/suppliers")  
@@ -36,7 +36,7 @@ public class SupplierController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditSupplierForm(@PathVariable BigInteger id, Model model) {
+    public String showEditSupplierForm(@PathVariable Long id, Model model) {
         SupplierEntity supplier = supplierService.getSupplierById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("supplier", supplier);
@@ -54,8 +54,8 @@ public class SupplierController {
         return "redirect:/Suppliers";
     }
 
-    @DeleteMapping("/remove/{id}")
-    public String deleteSupplier(@PathVariable BigInteger id) {
+    @GetMapping("/remove/{id}")
+    public String deleteSupplier(@PathVariable Long id) {
         SupplierEntity supplier = null;
         try{
             supplier = supplierService.getSupplierById(id).get();

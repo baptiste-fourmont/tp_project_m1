@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Edit Supplier</title>
+	<link rel="stylesheet" href="/css/pico.min.css">
+    <link rel="stylesheet" href="/css/extra_css.css">
+</head>
+<body>
+
+<h2>Edit Supplier</h2>
+
+<form th:action="@{/suppliers/edit}" method="post" th:object="${supplier}">
+    <input type="hidden" th:field="*{idSupplier}" />
+
+    <!-- Include field for supplier name -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:field="*{name}" required />
+
+    <button type="submit">Save Changes</button>
+</form>
+
+</body>
+</html>

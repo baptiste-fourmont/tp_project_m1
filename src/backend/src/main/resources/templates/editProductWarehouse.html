@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Edit Product Warehouse</title>
+	<link rel="stylesheet" href="/css/pico.min.css">
+    <link rel="stylesheet" href="/css/extra_css.css">
+</head>
+<body>
+
+<h2>Edit Product Warehouse</h2>
+
+<form th:action="@{/product/warehouse/edit}" method="post" th:object="${productWarehouse}">
+    <input type="hidden" th:field="*{idProductWarehouse}"/>
+
+    <!-- Include fields for product and warehouse selection -->
+    <label for="product">Product:</label>
+    <select id="product" name="product.idProduct" th:field="*{product.idProduct}">
+        <option th:each="product : ${products}" th:value="${product.idProduct}" th:text="${product.name}" th:selected="${product.idProduct == productWarehouse.product.idProduct}"></option>
+    </select>
+
+    <label for="warehouse">Warehouse:</label>
+    <select id="warehouse" name="warehouse.idWarehouse" th:field="*{warehouse.idWarehouse}">
+        <option th:each="warehouse : ${warehouses}" th:value="${warehouse.idWarehouse}" th:text="${warehouse.name}" th:selected="${warehouse.idWarehouse == productWarehouse.warehouse.idWarehouse}"></option>
+    </select>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+</body>
+</html>

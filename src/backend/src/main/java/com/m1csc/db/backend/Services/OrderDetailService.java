@@ -2,12 +2,16 @@ package com.m1csc.db.backend.Services;
 
 
 import com.m1csc.db.backend.Entities.OrderDetailEntity;
+import com.m1csc.db.backend.Entities.OrderEntity;
+import com.m1csc.db.backend.Entities.ProductEntity;
 import com.m1csc.db.backend.Repositories.OrderDetailRepository;
+import com.m1csc.db.backend.Repositories.OrderRepository;
+import com.m1csc.db.backend.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
+
 import java.util.List;
 
 @Service
@@ -16,6 +20,12 @@ public class OrderDetailService {
 
     @Autowired
     private OrderDetailRepository orderDetailRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     public List<OrderDetailEntity> getOrderDetails() {
         return orderDetailRepository.findAll();
@@ -54,8 +64,15 @@ public class OrderDetailService {
                                 orderDetail.getProduct().getIdProduct().equals(idProduct)).toList();
     }
 
-    public OrderDetailEntity getOrderDetailById(BigInteger id) {
+    public OrderDetailEntity getOrderDetailById(Long id) {
         return orderDetailRepository.findById(id).orElse(null);
     }
 
+    public List<ProductEntity> getProducts() {
+        return productRepository.findAll();
+    }
+
+    public List<OrderEntity> getOrders() {
+        return orderRepository.findAll();
+    }
 }

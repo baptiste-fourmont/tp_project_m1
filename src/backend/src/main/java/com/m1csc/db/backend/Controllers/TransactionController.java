@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
+
 
 @Controller
 @RequestMapping("/transactions")
@@ -36,7 +36,7 @@ public class TransactionController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditTransactionForm(@PathVariable BigInteger id, Model model) {
+    public String showEditTransactionForm(@PathVariable Long id, Model model) {
         TransactionEntity transaction = transactionService.getTransactionById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("transaction", transaction);
@@ -54,8 +54,8 @@ public class TransactionController {
         return "redirect:/transactions";
     }
 
-    @DeleteMapping("/remove/{id}")
-    public String deleteTransaction(@PathVariable BigInteger id) {
+    @GetMapping("/remove/{id}")
+    public String deleteTransaction(@PathVariable Long id) {
         TransactionEntity transaction = null;
         try{
             transaction = transactionService.getTransactionById(id).get();

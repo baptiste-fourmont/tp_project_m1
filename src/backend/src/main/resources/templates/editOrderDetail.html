@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Edit Order Detail</title>
+	<link rel="stylesheet" href="/css/pico.min.css">
+    <link rel="stylesheet" href="/css/extra_css.css">
+</head>
+<body>
+
+<h2>Edit Order Detail</h2>
+
+<form th:action="@{/order/detail/edit}" method="post" th:object="${orderdetail}">
+    <input type="hidden" th:field="*{idOrderDetail}" />
+
+    <label for="quantity">Quantity:</label>
+    <input type="text" id="quantity" name="quantity" th:field="*{quantity}" required />
+
+    <label for="unitPrice">Unit Price:</label>
+    <input type="text" id="unitPrice" name="unitPrice" th:field="*{unitPrice}" required />
+
+    <!-- Add dropdowns for associated entities (ProductEntity and OrderEntity) -->
+    <label for="product">Product:</label>
+    <select id="product" name="product.idProduct" th:field="*{product.idProduct}">
+        <option th:each="product : ${products}" th:value="${product.idProduct}" th:text="${product.name}"></option>
+    </select>
+
+    <label for="order">Order:</label>
+    <select id="order" name="order.idOrder" th:field="*{order.idOrder}">
+        <option th:each="order : ${orders}" th:value="${order.idOrder}" th:text="${order.idOrder + ' | ' + order.dateOrder}"></option>
+    </select>
+
+    <button type="submit">Update</button>
+</form>
+
+<a th:href="@{/order/detail}">Back to Order Details</a>
+
+</body>
+</html>
