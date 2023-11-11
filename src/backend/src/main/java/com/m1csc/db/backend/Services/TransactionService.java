@@ -1,6 +1,10 @@
 package com.m1csc.db.backend.Services;
 
+import com.m1csc.db.backend.Entities.EmployeeEntity;
+import com.m1csc.db.backend.Entities.ProductEntity;
 import com.m1csc.db.backend.Entities.TransactionEntity;
+import com.m1csc.db.backend.Repositories.EmployeeRepository;
+import com.m1csc.db.backend.Repositories.ProductRepository;
 import com.m1csc.db.backend.Repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,10 @@ public class TransactionService {
 
     @Autowired
     private TransactionRepository transactionRepository;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
 
     public List<TransactionEntity> getTransactions() {
@@ -53,5 +61,13 @@ public class TransactionService {
 
     public Optional<TransactionEntity> getTransactionById(Long idTransaction) {
         return transactionRepository.findById(idTransaction);
+    }
+
+    public List<ProductEntity> getProducts() {
+        return productRepository.findAll();
+    }
+
+    public List<EmployeeEntity> getEmployees() {
+        return employeeRepository.findAll();
     }
 }

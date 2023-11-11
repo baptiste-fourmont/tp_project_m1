@@ -1,6 +1,5 @@
 package com.m1csc.db.backend.Controllers;
 
-import com.m1csc.db.backend.Entities.EmployeeEntity;
 import com.m1csc.db.backend.Entities.ProductWarehouseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,8 +18,8 @@ public class ProductWarehouseController {
     private ProductWarehouseService productWarehouseService;
 
     @GetMapping("")
-    public String showProductWarehouses() {
-
+    public String showProductWarehouses(Model model) {
+        model.addAttribute("productWarehouses", productWarehouseService.getProductWarehouses());
         return "ProductWarehouses";
     }
 
@@ -32,7 +31,7 @@ public class ProductWarehouseController {
         return "ProductWarehouseForm";
     }
 
-    @PutMapping("")
+    @PostMapping("")
     public String createProductWarehouse(@ModelAttribute("productWarehouse") ProductWarehouseEntity productWarehouse) {
         productWarehouseService.createProductWarehouse(productWarehouse);
         return "redirect:/product/warehouse";

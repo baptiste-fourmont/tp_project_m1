@@ -46,6 +46,7 @@ public class ProductWarehouseService {
             _productWarehouse.setProduct(productWarehouse.getProduct());
             _productWarehouse.setWarehouse(productWarehouse.getWarehouse());
             _productWarehouse.setIdProductWarehouse(productWarehouse.getIdProductWarehouse());
+            _productWarehouse.setQuantity(productWarehouse.getQuantity());
             productWarehouseRepository.save(_productWarehouse);
         }
 

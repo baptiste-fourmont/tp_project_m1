@@ -26,7 +26,7 @@ public class SupplierController {
     @PostMapping("")
     public String createSupplier(@ModelAttribute("supplier") SupplierEntity supplier) {
         supplierService.createSupplier(supplier);
-        return "redirect:/Suppliers";
+        return "redirect:/suppliers";
     }
 
     @GetMapping("")
@@ -48,10 +48,10 @@ public class SupplierController {
         try {
             supplierService.getSupplierById(supplier.getIdSupplier()).get();
         } catch (Exception e) {
-            return "redirect:/Suppliers";
+            return "redirect:/suppliers";
         }
         supplierService.updateSupplier(supplier);
-        return "redirect:/Suppliers";
+        return "redirect:/suppliers";
     }
 
     @GetMapping("/remove/{id}")
@@ -61,10 +61,10 @@ public class SupplierController {
             supplier = supplierService.getSupplierById(id).get();
             supplierService.deleteSupplier(supplier);
         } catch (Exception e) {
-            return "redirect:/Suppliers";
+            return "redirect:/suppliers";
         }
 
-        return "redirect:/Suppliers";
+        return "redirect:/suppliers";
     }
 
 

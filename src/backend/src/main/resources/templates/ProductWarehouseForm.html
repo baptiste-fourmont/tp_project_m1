@@ -10,7 +10,7 @@
 
 <h2>Create Product Warehouse</h2>
 
-<form th:action="@{/product/warehouse}" method="put" th:object="${productWarehouse}">
+<form th:action="@{/product/warehouse}" method="post" th:object="${productWarehouse}">
     <!-- Include fields for product and warehouse selection -->
     <label for="product">Product:</label>
     <select id="product" name="product.idProduct" th:field="*{product.idProduct}">
@@ -21,6 +21,9 @@
     <select id="warehouse" name="warehouse.idWarehouse" th:field="*{warehouse.idWarehouse}">
         <option th:each="warehouse : ${warehouses}" th:value="${warehouse.idWarehouse}" th:text="${warehouse.name}"></option>
     </select>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id =quantity name="quantity" th:field="*{quantity}" required />
 
     <button type="submit">Create</button>
 </form>

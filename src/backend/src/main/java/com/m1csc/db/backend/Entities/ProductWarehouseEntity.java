@@ -27,4 +27,7 @@ public class ProductWarehouseEntity {
     @OneToOne
     @JoinColumn(name = "warehouse_id")
     private WarehouseEntity warehouse;
+
+    @Column(name = "quantity")
+    private Integer quantity;
 }

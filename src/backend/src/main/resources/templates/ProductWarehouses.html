@@ -16,6 +16,7 @@
         <th>ID</th>
         <th>Product</th>
         <th>Warehouse</th>
+        <th>Quantity</th>
         <th>Action</th>
     </tr>
     </thead>
@@ -23,7 +24,8 @@
     <tr th:each="productWarehouse : ${productWarehouses}">
         <td th:text="${productWarehouse.idProductWarehouse}"></td>
         <td th:text="${productWarehouse.product.name}"></td>
-        <td th:text="${productWarehouse.warehouse.name}"></td>
+        <td th:text="${productWarehouse.warehouse.name}">
+        <td th:text="${productWarehouse.quantity}"></td>
         <td>
             <a th:href="@{'/product/warehouse/edit/' + ${productWarehouse.idProductWarehouse}}">Edit</a>
             <a th:href="@{'/product/warehouse/remove/' + ${productWarehouse.idProductWarehouse}}" onclick="return confirm('Are you sure?')">Delete</a>
