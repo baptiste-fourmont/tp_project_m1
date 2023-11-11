@@ -4,6 +4,7 @@
 */
 -- Créer l'utilisateur stockapp et la base de données stock_management
 CREATE USER stockapp WITH ENCRYPTED PASSWORD 'yourpass';
+DROP DATABASE IF NOT EXISTS stock_management;
 CREATE DATABASE stock_management OWNER stockapp;
 
 -- Accorder à l'utilisateur stockapp la permission de se connecter à la base de données
@@ -27,6 +28,19 @@ BEGIN
         CREATE TYPE tr_type AS ENUM('BUY', 'SELL');
     END IF;
 END $$;
+
+CREATE TABLE IF NOT EXISTS audit_log (
+    id serial PRIMARY KEY,
+    event_type text,
+    schema_name text,
+    table_name text,
+    user_name text,
+    client_addr inet,
+    client_port integer,
+    log_time timestamp,
+    old_values jsonb,
+    new_values jsonb
+);
 
 CREATE TABLE IF NOT EXISTS stock_schema.categories (
     category_id SERIAL,
