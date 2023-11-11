@@ -1,5 +1,6 @@
 package com.m1csc.db.backend.Controllers;
 
+import com.m1csc.db.backend.Entities.Enums.TransactionType;
 import com.m1csc.db.backend.Entities.TransactionEntity;
 import com.m1csc.db.backend.Services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,21 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
+    @ModelAttribute("transaction_buy")
+    public TransactionType transactionTypeBuy() {
+        return TransactionType.BUY;
+    }
+
+    @ModelAttribute("transaction_sell")
+    public TransactionType transactionTypeSell() {
+        return TransactionType.SELL;
+    }
 
     @GetMapping("/new")
     public String showTransactionForm(Model model) {
         model.addAttribute("transaction", new TransactionEntity());
+        model.addAttribute("products", transactionService.getProducts());
+        model.addAttribute("employees", transactionService.getEmployees());
         return "TransactionForm";
     }
 
@@ -32,6 +44,8 @@ public class TransactionController {
     @GetMapping("")
     public String showTransactions(Model model) {
         model.addAttribute("transactions", transactionService.getTransactions());
+        model.addAttribute("products", transactionService.getProducts());
+        model.addAttribute("employees", transactionService.getEmployees());
         return "transactions";
     }
 
@@ -40,6 +54,8 @@ public class TransactionController {
         TransactionEntity transaction = transactionService.getTransactionById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("transaction", transaction);
+        model.addAttribute("products", transactionService.getProducts());
+        model.addAttribute("employees", transactionService.getEmployees());
         return "editTransaction";
     }
 

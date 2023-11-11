@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 
 import java.sql.Date;
@@ -30,7 +31,7 @@ public class TransactionEntity {
     private Integer quantityChanged;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "transaction_type")
+    @Column(columnDefinition = "tr_type", name = "transaction_type")
     private TransactionType transactionType;
 
     @OneToOne

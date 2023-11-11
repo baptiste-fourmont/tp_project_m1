@@ -26,13 +26,13 @@ public class WarehouseController {
     @PostMapping("")
     public String createWarehouse(@ModelAttribute("warehouse") WarehouseEntity warehouse) {
         warehouseService.createWarehouse(warehouse);
-        return "redirect:/Warehouses";
+        return "redirect:/warehouses";
     }
 
     @GetMapping("")
     public String showWarehouses(Model model) {
         model.addAttribute("Warehouses", warehouseService.getWarehouses());
-        return "Warehouses";
+        return "warehouses";
     }
 
     @GetMapping("/edit/{id}")
@@ -48,10 +48,10 @@ public class WarehouseController {
         try {
             warehouseService.getWarehouseById(warehouse.getIdWarehouse()).get();
         } catch (Exception e) {
-            return "redirect:/Warehouses";
+            return "redirect:/warehouses";
         }
         warehouseService.updateWarehouse(warehouse);
-        return "redirect:/Warehouses";
+        return "redirect:/warehouses";
     }
 
     @GetMapping("/remove/{id}")
@@ -61,10 +61,10 @@ public class WarehouseController {
             warehouse = warehouseService.getWarehouseById(id).get();
             warehouseService.deleteWarehouse(warehouse);
         } catch (Exception e) {
-            return "redirect:/Warehouses";
+            return "redirect:/warehouses";
         }
 
-        return "redirect:/Warehouses";
+        return "redirect:/warehouses";
     }
 
 

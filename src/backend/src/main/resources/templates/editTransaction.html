@@ -22,8 +22,8 @@
 
     <label for="type">Type:</label>
     <select id="type" name="transactionType" th:field="*{transactionType}" required>
-        <option value="IN" th:selected="${transaction.transactionType == 'IN'}">IN</option>
-        <option value="OUT" th:selected="${transaction.transactionType == 'OUT'}">OUT</option>
+        <option th:value="${transaction_buy}">BUY</option>
+        <option th:value="${transaction_sell}">SELL</option>
     </select>
 
     <!-- Include dropdowns for product and employee selection -->

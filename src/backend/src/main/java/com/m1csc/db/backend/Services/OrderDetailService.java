@@ -39,10 +39,10 @@ public class OrderDetailService {
         OrderDetailEntity _orderDetail = orderDetailRepository.findById(orderDetail.getIdOrderDetail()).orElse(null);
 
         if (_orderDetail != null) {
+            _orderDetail.setOrder(orderDetail.getOrder());
             _orderDetail.setQuantity(orderDetail.getQuantity());
             _orderDetail.setProduct(orderDetail.getProduct());
-            _orderDetail.setOrder(orderDetail.getOrder());
-            _orderDetail.setOrder(orderDetail.getOrder());
+            _orderDetail.setQuantity(orderDetail.getQuantity());
             _orderDetail.setIdOrderDetail(orderDetail.getIdOrderDetail());
             orderDetailRepository.save(_orderDetail);
         }
