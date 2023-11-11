@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -42,5 +44,9 @@ public class ProductService {
     
     public void deleteProduct(ProductEntity product) {
         productRepository.delete(product);
+    }
+
+    public Optional<ProductEntity> getProductById(BigInteger id) {
+        return productRepository.findById(id);
     }
 }

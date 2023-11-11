@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Service
@@ -47,5 +49,9 @@ public class TransactionService {
 
     public void deleteTransactionById(BigInteger id) {
         transactionRepository.deleteById(id);
+    }
+
+    public Optional<TransactionEntity> getTransactionById(BigInteger idTransaction) {
+        return transactionRepository.findById(idTransaction);
     }
 }

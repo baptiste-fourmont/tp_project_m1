@@ -59,11 +59,11 @@ public class EmployeeController {
 
         try{
             employee = employeeService.getEmployeeById(id).get();
+            employeeService.deleteEmployee(employee);
         } catch (Exception e) {
             return "redirect:/employees";
         }
 
-        employeeService.deleteEmployee(employee);
         return "redirect:/employees";
     }
 

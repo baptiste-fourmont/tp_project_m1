@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -42,7 +43,7 @@ public class OrderService {
         orderRepository.delete(order);
     }
 
-    public OrderEntity getOrderById(BigInteger id) {
-        return orderRepository.findById(id).orElse(null);
+    public Optional<OrderEntity> getOrderById(BigInteger id) {
+        return orderRepository.findById(id);
     }
 }
