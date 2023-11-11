@@ -55,6 +55,8 @@ public class ProductController {
         ProductEntity product = productService.getProductById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Produit non trouvé avec l'ID: " + id));
         model.addAttribute("product", product);
+        model.addAttribute("categories", categoryService.getCategories());
+        model.addAttribute("suppliers", supplierService.getSuppliers());
         return "editProduct.html";
     }
 

@@ -20,7 +20,7 @@ CREATE SCHEMA IF NOT EXISTS stock_schema AUTHORIZATION stockapp;
 SET search_path TO stock_schema;
 
 -- Accorder des privilèges à l'utilisateur stockapp sur toutes les tables du schéma stock_schema
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA stock_schema TO stockapp;
+GRANT EXECUTE ON ALL FUNCTIONS, SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA stock_schema TO stockapp;
 
 DO $$
 BEGIN
