@@ -91,7 +91,6 @@ CREATE TABLE IF NOT EXISTS stock_schema.employees (
     employee_name VARCHAR(255) NOT NULL,
     department INT NOT NULL,
     email VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(255) NOT NULL,
     warehouse_id BIGINT NOT NULL,
     PRIMARY KEY (employee_id),
     FOREIGN KEY (warehouse_id) REFERENCES stock_schema.warehouses(warehouse_id)
@@ -158,9 +157,7 @@ CREATE INDEX idx_product_warehouse_warehouse_id ON stock_schema.product_warehous
 
 -- Droits de base
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA stock_schema TO stockapp;
--- Droits necessaires 
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA stock_schema TO stockapp;
-
 
 \dn 
 

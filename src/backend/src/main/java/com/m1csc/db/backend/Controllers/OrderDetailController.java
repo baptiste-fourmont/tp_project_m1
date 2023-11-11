@@ -2,6 +2,9 @@ package com.m1csc.db.backend.Controllers;
 
 import com.m1csc.db.backend.Entities.OrderDetailEntity;
 import com.m1csc.db.backend.Services.OrderDetailService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,10 +33,9 @@ public class OrderDetailController {
 
     @GetMapping("")
     public String showOrderDetails(Model model) {
-        model.addAttribute("orderdetail", orderDetailService.getOrderDetails());
-        model.addAttribute("products", orderDetailService.getProducts());
-        model.addAttribute("orders", orderDetailService.getOrders());
-        return "orderDetail";
+        List<OrderDetailEntity> orderDetails = orderDetailService.getOrderDetails();
+        model.addAttribute("orderdetails", orderDetails);
+        return "orderDetail"; // Replace with the name of your HTML template
     }
 
     @GetMapping("/edit/{id}")
@@ -62,7 +64,7 @@ public class OrderDetailController {
     public String deleteOrderDetail(@PathVariable Long id) {
         OrderDetailEntity orderDetail = null;
 
-        try{
+        try {
             orderDetail = orderDetailService.getOrderDetailById(id);
             orderDetailService.deleteOrderDetail(orderDetail);
         } catch (Exception e) {
@@ -71,5 +73,4 @@ public class OrderDetailController {
 
         return "redirect:/order/detail";
     }
-
 }
