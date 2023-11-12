@@ -9,8 +9,6 @@ pgaudit.log_catalog = on
 pgaudit.log_relation = 'transactions'
 
 
-
-
 #vérifier que l'état (extstate) est à 'u' pour signifier que l'extension est activée 
 #dans postgre :
 SELECT * FROM pg_extension WHERE extname = 'pgaudit';
@@ -19,3 +17,22 @@ SELECT * FROM pg_extension WHERE extname = 'pgaudit';
 pgaudit.logfile = '/chemin/vers/votre/fichier_audit.log'
 
 
+psql --version
+
+sudo apt install postegresql-12-pgaudit
+
+près l'installation de pgAudit, vous devez configurer PostgreSQL pour charger l'extension. Modifiez le fichier 
+/etc/postgresql/12/main/postgresql.conf :
+
+Ajoutez pgaudit à shared_preload_libraries et la ligne pgaudit.log
+
+shared_preload_libraries = 'pgaudit'
+pgaudit.log = 'write,ddl' 
+
+Redémarrez PostgreSQL pour appliquer ces changements :
+
+sudo systemctl restart postgresql
+
+Lancer CREATE EXTENSION IF NOT EXISTS pgaudit; depuis un utilisateur psql
+
+Regarder le contenu de pgaudit.log
