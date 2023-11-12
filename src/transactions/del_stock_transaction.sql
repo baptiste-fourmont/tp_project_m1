@@ -1,4 +1,3 @@
-\c stock_management
 
 BEGIN;
     DELETE FROM stock_schema.transactions

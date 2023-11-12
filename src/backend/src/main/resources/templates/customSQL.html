@@ -11,12 +11,12 @@
 <h2>Custom SQL Transactions</h2>
 
 <div id="sql_data">
-    <p th:text="'SQL : ' + ${sqlQuery}"></p>
+    <p th:text="'SQL : ' + ${query}"></p>
     <p th:text="'Status : DONE'"></p>
 </div>
 
 <div id="create_elem">
-    <a th:href="@{/categories/new}">Add new Category</a>
+    <a th:href="@{/transactions/}">Go check up transactions</a>
 </div>
 <div id="back_elem">
     <a th:href="@{/}">Back to the main page</a>

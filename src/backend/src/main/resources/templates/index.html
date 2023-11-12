@@ -7,6 +7,7 @@
     </head>
     <body>
     <h1>Projet</h1>
+
         <ul>
             <li><a th:href="@{/employees}">Employés</a></li>
             <li><a th:href="@{/categories}">Catégories</a></li>
@@ -18,5 +19,11 @@
             <li><a th:href="@{/transactions}">Transactions</a></li>
             <li><a th:href="@{/warehouses}">Entrepôts</a></li>
         </ul>
+    <h2>CUSTOM TRANSACTIONS</h2>
+    <ul>
+        <li><a th:href="@{/custom/addstock}">Ajout d'un stock</a></li>
+        <li><a th:href="@{/custom/modstock}">Modifier un stock</a></li>
+        <li><a th:href="@{/custom/delstock}">Supprimer un stock</a></li>
+    </ul>
     </body>
 </html>
