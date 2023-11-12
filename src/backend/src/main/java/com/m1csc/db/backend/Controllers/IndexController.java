@@ -12,7 +12,7 @@ public class IndexController {
     TSQLService tsqlService;
 
     @GetMapping("/")
-    public String showEmployees() {
+    public String show() {
         return "index";
     }
 
