@@ -1,7 +1,6 @@
 package com.m1csc.db.backend.Controllers;
 
 import com.m1csc.db.backend.Entities.CategoryEntity;
-import com.m1csc.db.backend.Entities.EmployeeEntity;
 import com.m1csc.db.backend.Entities.ProductEntity;
 import com.m1csc.db.backend.Entities.SupplierEntity;
 import com.m1csc.db.backend.Services.CategoryService;
@@ -33,7 +32,7 @@ public class ProductController {
         model.addAttribute("categories", categories);
         model.addAttribute("suppliers", suppliers);
         model.addAttribute("product", new ProductEntity());
-        return "ProductForm";
+        return "AddForms/addProduct";
     }
 
     @PostMapping("")
@@ -47,7 +46,7 @@ public class ProductController {
         model.addAttribute("products", productService.getProducts());
         model.addAttribute("categories", categoryService.getCategories());
         model.addAttribute("suppliers", supplierService.getSuppliers());
-        return "Products"; // This should match the name of your Thymeleaf template
+        return "products";
     }
 
     @GetMapping("/edit/{id}")
@@ -57,16 +56,12 @@ public class ProductController {
         model.addAttribute("product", product);
         model.addAttribute("categories", categoryService.getCategories());
         model.addAttribute("suppliers", supplierService.getSuppliers());
-        return "editProduct.html";
+        return "EditForms/editProduct";
     }
 
     @PostMapping("/edit")
     public String updateProduct(@ModelAttribute("product") ProductEntity product) {
-        try {
-            productService.getProductById(product.getIdProduct()).get();
-        } catch (Exception e) {
-            return "redirect:/products";
-        }
+        productService.getProductById(product.getIdProduct()).get();
         productService.updateProduct(product);
         return "redirect:/products";
     }
@@ -75,11 +70,7 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id) {
         ProductEntity product = null;
 
-        try {
-            product = productService.getProductById(id).get();
-        } catch (Exception e) {
-            return "redirect:/products";
-        }
+        product = productService.getProductById(id).get();
 
         productService.deleteProduct(product);
         return "redirect:/products";

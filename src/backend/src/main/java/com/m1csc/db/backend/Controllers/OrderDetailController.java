@@ -22,7 +22,7 @@ public class OrderDetailController {
         model.addAttribute("orderdetail", new OrderDetailEntity());
         model.addAttribute("products", orderDetailService.getProducts());
         model.addAttribute("orders", orderDetailService.getOrders());
-        return "OrderDetailForm";
+        return "AddForms/addOrderDetail";
     }
 
     @PostMapping("")
@@ -35,7 +35,7 @@ public class OrderDetailController {
     public String showOrderDetails(Model model) {
         List<OrderDetailEntity> orderDetails = orderDetailService.getOrderDetails();
         model.addAttribute("orderdetails", orderDetails);
-        return "orderDetail"; // Replace with the name of your HTML template
+        return "orderDetails"; // Replace with the name of your HTML template
     }
 
     @GetMapping("/edit/{id}")
@@ -46,16 +46,12 @@ public class OrderDetailController {
         model.addAttribute("orderdetail", orderDetail);
         model.addAttribute("products", orderDetailService.getProducts());
         model.addAttribute("orders", orderDetailService.getOrders());
-        return "editOrderDetail";
+        return "EditForms/editOrderDetail";
     }
 
     @PostMapping("/edit")
     public String updateOrderDetail(@ModelAttribute("orderdetail") OrderDetailEntity orderDetail) {
-        try {
-            orderDetailService.getOrderDetailById(orderDetail.getIdOrderDetail());
-        } catch (Exception e) {
-            return "redirect:/order/detail";
-        }
+        orderDetailService.getOrderDetailById(orderDetail.getIdOrderDetail());
         orderDetailService.updateOrderDetail(orderDetail);
         return "redirect:/order/detail";
     }
@@ -63,13 +59,8 @@ public class OrderDetailController {
     @GetMapping("/remove/{id}")
     public String deleteOrderDetail(@PathVariable Long id) {
         OrderDetailEntity orderDetail = null;
-
-        try {
-            orderDetail = orderDetailService.getOrderDetailById(id);
-            orderDetailService.deleteOrderDetail(orderDetail);
-        } catch (Exception e) {
-            return "redirect:/order/detail";
-        }
+        orderDetail = orderDetailService.getOrderDetailById(id);
+        orderDetailService.deleteOrderDetail(orderDetail);
 
         return "redirect:/order/detail";
     }

@@ -12,14 +12,16 @@
 
     <h2>Order Details</h2>
 
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Quantity</th>
                 <th>Unit Price</th>
                 <th>Product</th>
-                <th>Order</th>
+                <th>Order supplier</th>
+                <th>Order date</th>
+                <th>Order's total amount</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -29,6 +31,9 @@
                 <td th:text="${orderdetail.quantity}"></td>
                 <td th:text="${orderdetail.unitPrice}"></td>
                 <td th:text="${orderdetail.product.name}"></td>
+                <td th:text="${orderdetail.order.supplier.name}"></td>
+                <td th:text="${orderdetail.order.dateOrder}"></td>
+                <td th:text="${orderdetail.order.totalAmount}"></td>
                 <td>
                     <a th:href="@{'/order/detail/edit/' + ${orderdetail.idOrderDetail}}">Edit</a>
                     <a th:href="@{'/order/detail/remove/' + ${orderdetail.idOrderDetail}}"
@@ -37,9 +42,12 @@
             </tr>
         </tbody>
     </table>
-
-    <a th:href="@{/order/detail/new}">Add New Order Detail</a>
-
+    <div id="create_elem">
+        <a th:href="@{/order/detail/new}">Add New Order Detail</a>
+    </div>
+    <div id="back_elem">
+        <a th:href="@{/}">Back to the main page</a>
+    </div>
 </body>
 
 </html>

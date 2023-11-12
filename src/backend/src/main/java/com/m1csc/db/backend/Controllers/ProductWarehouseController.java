@@ -20,7 +20,7 @@ public class ProductWarehouseController {
     @GetMapping("")
     public String showProductWarehouses(Model model) {
         model.addAttribute("productWarehouses", productWarehouseService.getProductWarehouses());
-        return "ProductWarehouses";
+        return "productWarehouses";
     }
 
     @GetMapping("/new")
@@ -28,7 +28,7 @@ public class ProductWarehouseController {
         model.addAttribute("productWarehouse", new ProductWarehouseEntity());
         model.addAttribute("products", productWarehouseService.getAllProducts());
         model.addAttribute("warehouses", productWarehouseService.getAllWarehouses());
-        return "ProductWarehouseForm";
+        return "AddForms/addProductWarehouse";
     }
 
     @PostMapping("")
@@ -42,12 +42,7 @@ public class ProductWarehouseController {
     public String deleteProductWarehouse(@PathVariable Long id) {
         ProductWarehouseEntity productWarehouse = null;
 
-        try{
-            productWarehouse = productWarehouseService.getProductWarehouseById(id).get();
-        } catch (Exception e) {
-            return "redirect:/product/warehouse";
-        }
-
+        productWarehouse = productWarehouseService.getProductWarehouseById(id).get();
         productWarehouseService.deleteProductWarehouse(productWarehouse);
         return "redirect:/product/warehouse";
     }
@@ -59,16 +54,13 @@ public class ProductWarehouseController {
         model.addAttribute("productWarehouse", productWarehouse);
         model.addAttribute("products", productWarehouseService.getAllProducts());
         model.addAttribute("warehouses", productWarehouseService.getAllWarehouses());
-        return "editProductWarehouse";
+        return "EditForms/editProductWarehouse";
     }
 
     @PostMapping("/edit")
     public String updateProductWarehouseController(@ModelAttribute("productWarehouse") ProductWarehouseEntity productWarehouse) {
-        try {
-            productWarehouseService.getProductWarehouseById(productWarehouse.getIdProductWarehouse()).get();
-        } catch (Exception e) {
-            return "redirect:/product/warehouse";
-        }
+        productWarehouseService.getProductWarehouseById(productWarehouse.getIdProductWarehouse()).get();
+
         productWarehouseService.updateProductWarehouse(productWarehouse);
         return "redirect:/product/warehouse";
     }

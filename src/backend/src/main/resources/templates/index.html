@@ -1,32 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Page d'accueil</title>
-	<link rel="stylesheet" href="/css/pico.min.css">
-    <link rel="stylesheet" href="/css/extra_css.css">
-</head>
-<body>
-<h1>Projet </h1>
-
-    <ul>
-        <li><a th:href="@{/employees}">Liste des employés</a></li>
-        <li><a th:href="@{/employees/new}">Créer un employé</a></li>
-        <li><a th:href="@{/categories}">Liste des catégories</a></li>
-        <li><a th:href="@{/categories/new}">Créer une catégorie</a></li>
-        <li><a th:href="@{/order/detail}">Liste des détails de commande</a></li>
-        <li><a th:href="@{/order/detail/new}">Créer un détail de commande</a></li>
-        <li><a th:href="@{/orders}">Liste des commandes</a></li>
-        <li><a th:href="@{/orders/new}">Créer une commande</a></li>
-        <li><a th:href="@{/products}">Liste des produits</a></li>
-        <li><a th:href="@{/products/new}">Créer un produit</a></li>
-        <li><a th:href="@{/product/warehouse}">Liste des produits dans l'entrepôt</a></li>
-        <li><a th:href="@{/product/warehouse/new}">Créer un produit dans l'entrepôt</a></li>
-        <li><a th:href="@{/suppliers}">Liste des fournisseurs</a></li>
-        <li><a th:href="@{/suppliers/new}">Créer un fournisseur</a></li>
-        <li><a th:href="@{/transactions}">Liste des transactions</a></li>
-        <li><a th:href="@{/transactions/new}">Créer une transaction</a></li>
-        <li><a th:href="@{/warehouses}">Liste des entrepôts</a></li>
-        <li><a th:href="@{/warehouses/new}">Créer un entrepôt</a></li>
-    </ul>
-</body>
+    <head>
+        <title>Page d'accueil</title>
+        <link rel="stylesheet" href="/css/pico.min.css">
+        <link rel="stylesheet" href="/css/extra_css.css">
+    </head>
+    <body>
+    <h1>Projet</h1>
+        <ul>
+            <li><a th:href="@{/employees}">Employés</a></li>
+            <li><a th:href="@{/categories}">Catégories</a></li>
+            <li><a th:href="@{/orders}">Commandes</a></li>
+            <li><a th:href="@{/order/detail}">Détails de commande</a></li>
+            <li><a th:href="@{/products}">Produits</a></li>
+            <li><a th:href="@{/product/warehouse}">Produits d'entrepôt</a></li>
+            <li><a th:href="@{/suppliers}">Fournisseurs</a></li>
+            <li><a th:href="@{/transactions}">Transactions</a></li>
+            <li><a th:href="@{/warehouses}">Entrepôts</a></li>
+        </ul>
+    </body>
 </html>

@@ -4,7 +4,6 @@
 */
 -- Créer l'utilisateur stockapp et la base de données stock_management
 CREATE USER stockapp WITH ENCRYPTED PASSWORD 'yourpass';
-DROP DATABASE IF NOT EXISTS stock_management;
 CREATE DATABASE stock_management OWNER stockapp;
 
 -- Accorder à l'utilisateur stockapp la permission de se connecter à la base de données
@@ -18,9 +17,6 @@ CREATE SCHEMA IF NOT EXISTS stock_schema AUTHORIZATION stockapp;
 
 -- Changer le chemin de recherche par défaut pour le schéma stock_schema
 SET search_path TO stock_schema;
-
--- Accorder des privilèges à l'utilisateur stockapp sur toutes les tables du schéma stock_schema
-GRANT EXECUTE ON ALL FUNCTIONS, SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA stock_schema TO stockapp;
 
 DO $$
 BEGIN

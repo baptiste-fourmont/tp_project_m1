@@ -21,7 +21,7 @@ public class OrderController {
     public String showOrderForm(Model model) {
         model.addAttribute("order", new OrderEntity());
         model.addAttribute("suppliers", orderService.getSuppliers());
-        return "OrderForm";
+        return "AddForms/addOrder";
     }
 
     @PostMapping("")
@@ -34,7 +34,7 @@ public class OrderController {
     public String showOrders(Model model) {
         model.addAttribute("orders", orderService.getOrders());
         model.addAttribute("suppliers", orderService.getSuppliers());
-        return "Orders";
+        return "orders";
     }
 
     @GetMapping("/edit/{id}")
@@ -42,16 +42,12 @@ public class OrderController {
         OrderEntity order = orderService.getOrderById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("order", order);
-        return "editOrder";
+        return "EditForms/editOrder";
     }
 
     @PostMapping("/edit")
     public String updateOrder(@ModelAttribute("order") OrderEntity order) {
-        try {
-            orderService.getOrderById(order.getIdOrder()).get();
-        } catch (Exception e) {
-            return "redirect:/orders";
-        }
+        orderService.getOrderById(order.getIdOrder()).get();
         orderService.updateOrder(order);
         return "redirect:/orders";
     }
@@ -59,15 +55,9 @@ public class OrderController {
     @GetMapping("/remove/{id}")
     public String deleteOrder(@PathVariable Long id) {
         OrderEntity order = null;
-        try{
-            order = orderService.getOrderById(id).get();
-            orderService.deleteOrder(order);
-        } catch (Exception e) {
-            return "redirect:/orders";
-        }
-
+        order = orderService.getOrderById(id).get();
+        orderService.deleteOrder(order);
         return "redirect:/orders";
     }
-
 
 }

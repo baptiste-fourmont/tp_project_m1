@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/suppliers")  
 public class SupplierController {
-    
+
     @Autowired
     private SupplierService supplierService;
 
@@ -20,7 +20,7 @@ public class SupplierController {
     @GetMapping("/new")
     public String showSupplierForm(Model model) {
         model.addAttribute("supplier", new SupplierEntity());
-        return "SupplierForm";
+        return "AddForms/addSupplier";
     }
 
     @PostMapping("")
@@ -32,7 +32,7 @@ public class SupplierController {
     @GetMapping("")
     public String showSuppliers(Model model) {
         model.addAttribute("Suppliers", supplierService.getSuppliers());
-        return "Suppliers";
+        return "suppliers";
     }
 
     @GetMapping("/edit/{id}")
@@ -40,16 +40,12 @@ public class SupplierController {
         SupplierEntity supplier = supplierService.getSupplierById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("supplier", supplier);
-        return "editSupplier";
+        return "EditForms/editSupplier";
     }
 
     @PostMapping("/edit")
     public String updateSupplier(@ModelAttribute("supplier") SupplierEntity supplier) {
-        try {
-            supplierService.getSupplierById(supplier.getIdSupplier()).get();
-        } catch (Exception e) {
-            return "redirect:/suppliers";
-        }
+        supplierService.getSupplierById(supplier.getIdSupplier()).get();
         supplierService.updateSupplier(supplier);
         return "redirect:/suppliers";
     }
@@ -57,15 +53,10 @@ public class SupplierController {
     @GetMapping("/remove/{id}")
     public String deleteSupplier(@PathVariable Long id) {
         SupplierEntity supplier = null;
-        try{
-            supplier = supplierService.getSupplierById(id).get();
-            supplierService.deleteSupplier(supplier);
-        } catch (Exception e) {
-            return "redirect:/suppliers";
-        }
+        supplier = supplierService.getSupplierById(id).get();
+        supplierService.deleteSupplier(supplier);
 
         return "redirect:/suppliers";
     }
-
 
 }

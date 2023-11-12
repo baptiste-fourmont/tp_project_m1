@@ -24,6 +24,7 @@
                 <th>Nom de l'entrepot</th>
                 <th>Departement</th>
                 <th>Email</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -33,10 +34,20 @@
                 <td th:text="${employee.getWarehouse().getName()}">Nom de l'entrepot</td>
                 <td th:text="${employee.getDepartment()}">Departement</td>
                 <td th:text="${employee.getEmail()}">Email</td>
+                <td>
+                    <a th:href="@{'/employees/edit/' + ${employee.getIdEmployee()}}">Edit</a>
+                    <a th:href="@{'/employees/remove/' + ${employee.getIdEmployee()}}" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
             </tr>
             </tbody>
         </table>
 
+    <div id="create_elem">
+            <a th:href="@{/employees/new}">Create new employee </a>
+    </div>
+    <div id="back_elem">
+            <a th:href="@{/}">Back to the main page</a>
+        </div>
     </body>
 
 </html>

@@ -10,7 +10,7 @@
 
 <h2>Products</h2>
 
-<table border="1">
+<table>
     <thead>
     <tr>
         <th>ID</th>
@@ -38,7 +38,12 @@
     </tbody>
 </table>
 
-<a th:href="@{/products/new}">Add New Product</a>
+    <div id="create_elem">
+        <a th:href="@{/products/new}">Add New Product</a>
+    </div>
+    <div id="back_elem">
+        <a th:href="@{/}">Back to the main page</a>
+    </div>
 
 </body>
 </html>

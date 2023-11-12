@@ -1,4 +1,4 @@
-:root:not([data-theme="dark"]) {
+:root:not([data-theme="light"]) {
     --primary: #8e24aa;
     --primary-hover: #7b1fa2;
     --primary-focus: rgba(142, 36, 170, 0.125);
@@ -10,7 +10,27 @@
     margin-top: 5vh;
 }
 
-h1{
+h1, h2{
     text-align: center;
 }
+
+table {
+    margin-top: 5vh;
+}
+
+
+table tr td th {
+    text-align: center;
+}
+
+#create_elem {
+    margin-top: 5vh;
+    text-align: left;
+}
+
+#back_elem {
+    margin-top: 5vh;
+    text-align: center;
+}
+
 

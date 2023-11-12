@@ -16,6 +16,7 @@
         <th>ID</th>
         <th>Name</th>
         <th>Action</th>
+
     </tr>
     </thead>
     <tbody>
@@ -30,7 +31,12 @@
     </tbody>
 </table>
 
-<a th:href="@{/categories/new}">Add New Category</a>
 
+<div id="create_elem">
+    <a th:href="@{/categories/new}">Add new Category</a>
+</div>
+<div id="back_elem">
+    <a th:href="@{/}">Back to the main page</a>
+</div>
 </body>
 </html>
