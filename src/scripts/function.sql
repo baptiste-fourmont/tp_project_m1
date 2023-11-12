@@ -190,6 +190,7 @@ EXECUTE FUNCTION check_stock_on_order();
 
 
 
+
 -- Grant execute rights on the logging_transaction procedure
 GRANT EXECUTE ON FUNCTION stock_schema.logging_transaction() TO stockapp;
 
