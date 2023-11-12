@@ -16,6 +16,9 @@
     <label for="dateOrder">Order Date:</label>
     <input type="date" id="dateOrder" name="dateOrder" th:field="*{dateOrder}" required />
 
+    <label for="totalAmount">Total Amount:</label>
+    <input type="number" id="totalAmount" name="totalAmount" th:field="*{totalAmount}" required />
+
     <!-- Add dropdown for associated entity (SupplierEntity) -->
     <label for="supplier">Supplier:</label>
     <select id="supplier" name="supplier.idSupplier" th:field="*{supplier.idSupplier}">

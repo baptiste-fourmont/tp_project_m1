@@ -1,11 +1,12 @@
 package com.m1csc.db.backend.Services;
 
 import com.m1csc.db.backend.Entities.OrderEntity;
+import com.m1csc.db.backend.Entities.SupplierEntity;
 import com.m1csc.db.backend.Repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.m1csc.db.backend.Repositories.SupplierRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,8 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private SupplierRepository supplierRepository;
 
     public List<OrderEntity> getOrders() {
         return orderRepository.findAll();
@@ -32,6 +35,7 @@ public class OrderService {
             _order.setDateOrder(order.getDateOrder());
             _order.setIdOrder(order.getIdOrder());
             _order.setSupplier(order.getSupplier());
+            _order.setTotalAmount(order.getTotalAmount());
             orderRepository.save(_order);
         }
 
@@ -45,5 +49,9 @@ public class OrderService {
 
     public Optional<OrderEntity> getOrderById(Long id) {
         return orderRepository.findById(id);
+    }
+
+    public List<SupplierEntity> getSuppliers(){
+        return supplierRepository.findAll();
     }
 }

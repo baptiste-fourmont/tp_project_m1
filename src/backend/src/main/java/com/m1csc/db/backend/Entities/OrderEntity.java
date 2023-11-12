@@ -24,6 +24,9 @@ public class OrderEntity {
     @Column (name = "order_date")
     private Date dateOrder;
 
+    @Column (name = "total_amount")
+    private Integer totalAmount;
+
     @OneToOne
     @JoinColumn(name = "supplier_id")
     private SupplierEntity supplier;

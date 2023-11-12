@@ -15,6 +15,7 @@
     <tr>
         <th>ID</th>
         <th>Order Date</th>
+        <th>Total Amount</th>
         <th>Supplier</th>
         <th>Action</th>
     </tr>
@@ -23,6 +24,7 @@
     <tr th:each="order : ${orders}">
         <td th:text="${order.idOrder}"></td>
         <td th:text="${order.dateOrder}"></td>
+        <td th:text="${order.totalAmount}"></td>
         <td th:text="${order.supplier.name}"></td>
         <td>
             <a th:href="@{'/orders/edit/' + ${order.idOrder}}">Edit</a>
