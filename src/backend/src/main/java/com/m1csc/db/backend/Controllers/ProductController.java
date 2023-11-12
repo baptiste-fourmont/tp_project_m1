@@ -47,7 +47,7 @@ public class ProductController {
         model.addAttribute("products", productService.getProducts());
         model.addAttribute("categories", categoryService.getCategories());
         model.addAttribute("suppliers", supplierService.getSuppliers());
-        return "Products"; // This should match the name of your Thymeleaf template
+        return "products"; // This should match the name of your Thymeleaf template
     }
 
     @GetMapping("/edit/{id}")

@@ -34,7 +34,7 @@ public class OrderController {
     public String showOrders(Model model) {
         model.addAttribute("orders", orderService.getOrders());
         model.addAttribute("suppliers", orderService.getSuppliers());
-        return "Orders";
+        return "orders";
     }
 
     @GetMapping("/edit/{id}")

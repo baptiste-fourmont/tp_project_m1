@@ -42,7 +42,6 @@ AFTER UPDATE ON stock_schema.products
 FOR EACH ROW
 EXECUTE FUNCTION update_product_price();
 
-
 CREATE OR REPLACE FUNCTION add_to_stock(product_id BIGINT, quantity_added INT) 
 RETURNS void AS $$
 BEGIN
@@ -52,28 +51,30 @@ BEGIN
 
     UPDATE stock_schema.products 
     SET quantity = quantity + quantity_added 
-    WHERE product_id = product_id;
+    WHERE products.product_id = product_id;
 END;
 $$ LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION remove_from_stock(product_id BIGINT, quantity_removed INT) 
 RETURNS void AS $$
+DECLARE
+    current_quantity INT;
 BEGIN
     IF quantity_removed < 0 THEN
         RAISE EXCEPTION 'Quantity to remove must be positive';
     END IF;
 
-    UPDATE stock_schema.products 
-    SET quantity = quantity - quantity_removed 
-    WHERE product_id = product_id;
-
-    IF (SELECT quantity FROM stock_schema.products WHERE product_id = product_id) < 0 THEN
+    SELECT quantity INTO current_quantity FROM stock_schema.products WHERE products.product_id = product_id;
+    IF current_quantity < quantity_removed THEN
         RAISE EXCEPTION 'Insufficient stock for this operation';
     END IF;
+
+    UPDATE stock_schema.products 
+    SET quantity = quantity - quantity_removed 
+    WHERE products.product_id = product_id;
 END;
 $$ LANGUAGE plpgsql;
-
 
 CREATE OR REPLACE FUNCTION update_stock(product_id BIGINT, new_quantity INT) 
 RETURNS void AS $$
@@ -84,10 +85,9 @@ BEGIN
 
     UPDATE stock_schema.products 
     SET quantity = new_quantity 
-    WHERE product_id = product_id;
+    WHERE products.product_id = product_id;
 END;
 $$ LANGUAGE plpgsql;
-
 
 -- Création d'un trigger pour contrôler le stock après chaque transaction
 CREATE OR REPLACE FUNCTION update_product_quantity()
@@ -131,37 +131,45 @@ WHERE transaction_id = 1;
 -- Trigger pour ajuter la quantité de stock lors de l'ajout de produits
 CREATE OR REPLACE FUNCTION add_to_stock()
 RETURNS TRIGGER AS $$
+DECLARE
+    total_in_warehouses INT;
 BEGIN
-    UPDATE stock_schema.products
-    SET quantity = quantity + NEW.quantity
+    -- Calculer la somme totale du produit dans tous les entrepôts
+    SELECT SUM(quantity) INTO total_in_warehouses
+    FROM stock_schema.product_warehouse
     WHERE product_id = NEW.product_id;
+
+    -- Vérifier si la quantité totale dans les entrepôts dépasse la quantité disponible dans 'products'
+    IF total_in_warehouses + NEW.quantity > (SELECT quantity FROM stock_schema.products WHERE product_id = NEW.product_id) THEN
+        RAISE EXCEPTION 'Adding quantity exceeds total product quantity in stock';
+    END IF;
+
+    -- Si tout va bien, pas besoin de mettre à jour 'products' ici car cela devrait être géré ailleurs
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger à appliquer après l'insertion dans la table des produits
 CREATE TRIGGER trig_add_to_stock
-AFTER INSERT ON stock_schema.product_warehouse
+AFTER INSERT OR UPDATE ON stock_schema.product_warehouse
 FOR EACH ROW
 EXECUTE FUNCTION add_to_stock();
 
--- Trigger pour déduire la quantité du stock lorsqu'un produit est retiré d'un entrepot
+-- Modification de la fonction pour retirer du stock
 CREATE OR REPLACE FUNCTION remove_from_stock()
 RETURNS TRIGGER AS $$
 BEGIN
     UPDATE stock_schema.products
-    SET quantity = quantity - NEW.quantity
-    WHERE product_id = NEW.product_id;
-    RETURN NEW;
+    SET quantity = quantity - OLD.quantity
+    WHERE product_id = OLD.product_id;
+    RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger à appliquer après la suppression dans la table des produits dans un entrepôt
+-- Trigger pour retirer du stock lorsqu'un produit est retiré d'un entrepôt
 CREATE TRIGGER trig_remove_from_stock
 AFTER DELETE ON stock_schema.product_warehouse
 FOR EACH ROW
 EXECUTE FUNCTION remove_from_stock();
-
 
 -- Vérification de quantité de stock avant une commande
 CREATE OR REPLACE FUNCTION check_stock_on_order()
@@ -183,16 +191,17 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Trigger à appliquer avant l'insertion dans la table des détails de commande
+
 CREATE TRIGGER trig_check_stock_on_order
-BEFORE INSERT ON stock_schema.order_details
+BEFORE INSERT OR UPDATE ON stock_schema.order_details
 FOR EACH ROW
 EXECUTE FUNCTION check_stock_on_order();
 
-
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA stock_schema TO stockapp;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA stock_schema TO stockapp;
 
 -- Grant execute rights on the logging_transaction procedure
 GRANT EXECUTE ON PROCEDURE stock_schema.logging_transaction() TO stockapp;
-
 -- Grant execute rights on the update_product_price function
 GRANT EXECUTE ON FUNCTION stock_schema.update_product_price() TO stockapp;
 
