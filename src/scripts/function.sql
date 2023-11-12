@@ -187,3 +187,24 @@ CREATE TRIGGER trig_check_stock_on_order
 BEFORE INSERT ON stock_schema.order_details
 FOR EACH ROW
 EXECUTE FUNCTION check_stock_on_order();
+
+-- Grant execute rights on the logging_transaction procedure
+GRANT EXECUTE ON FUNCTION stock_schema.logging_transaction() TO stockapp;
+
+-- Grant execute rights on the update_product_price function
+GRANT EXECUTE ON FUNCTION stock_schema.update_product_price() TO stockapp;
+
+-- Grant execute rights on the add_to_stock, remove_from_stock, and update_stock functions
+GRANT EXECUTE ON FUNCTION stock_schema.add_to_stock(BIGINT, INT) TO stockapp;
+GRANT EXECUTE ON FUNCTION stock_schema.remove_from_stock(BIGINT, INT) TO stockapp;
+GRANT EXECUTE ON FUNCTION stock_schema.update_stock(BIGINT, INT) TO stockapp;
+
+-- Grant execute rights on the update_product_quantity function
+GRANT EXECUTE ON FUNCTION stock_schema.update_product_quantity() TO stockapp;
+
+-- Grant execute rights on the add_to_stock and remove_from_stock functions (triggers)
+GRANT EXECUTE ON FUNCTION stock_schema.add_to_stock() TO stockapp;
+GRANT EXECUTE ON FUNCTION stock_schema.remove_from_stock() TO stockapp;
+
+-- Grant execute rights on the check_stock_on_order function
+GRANT EXECUTE ON FUNCTION stock_schema.check_stock_on_order() TO stockapp;
