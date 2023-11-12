@@ -20,7 +20,7 @@ public class EmployeeController {
     public String showEmployeeForm(Model model) {
         model.addAttribute("employee", new EmployeeEntity());
         model.addAttribute("warehouses", employeeService.getWarehouses());
-        return "addEmployee";
+        return "AddForms/addEmployee";
     }
 
     @PostMapping("")
@@ -33,7 +33,7 @@ public class EmployeeController {
     public String showEmployees(Model model) {
         model.addAttribute("employees", employeeService.getEmployees());
         model.addAttribute("warehouses", employeeService.getWarehouses());
-        return "Employees";
+        return "employees";
     }
 
     @GetMapping("/edit/{id}")
@@ -42,16 +42,12 @@ public class EmployeeController {
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("employee", employee);
         model.addAttribute("warehouses", employeeService.getWarehouses());
-        return "editEmployee";
+        return "EditForms/editEmployee";
     }
 
     @PostMapping("/edit")
     public String updateEmployee(@ModelAttribute("employee") EmployeeEntity employee) {
-        try {
-            employeeService.getEmployeeById(employee.getIdEmployee()).get();
-        } catch (Exception e) {
-            return "redirect:/employees";
-        }
+        employeeService.getEmployeeById(employee.getIdEmployee()).get();
         employeeService.updateEmployee(employee);
         return "redirect:/employees";
     }
@@ -59,14 +55,8 @@ public class EmployeeController {
     @GetMapping("/remove/{id}")
     public String deleteEmployee(@PathVariable Long id) {
         EmployeeEntity employee = null;
-
-        try{
-            employee = employeeService.getEmployeeById(id).get();
-            employeeService.deleteEmployee(employee);
-        } catch (Exception e) {
-            return "redirect:/employees";
-        }
-
+        employee = employeeService.getEmployeeById(id).get();
+        employeeService.deleteEmployee(employee);
         return "redirect:/employees";
     }
 

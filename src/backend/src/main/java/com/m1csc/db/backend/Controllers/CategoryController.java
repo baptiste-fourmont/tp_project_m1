@@ -13,14 +13,14 @@ import com.m1csc.db.backend.Services.CategoryService;
 @Controller
 @RequestMapping("/categories")
 public class CategoryController {
-    
+
     @Autowired
     private CategoryService categoryService;
 
     @GetMapping("/new")
     public String showCategoryForm(Model model) {
         model.addAttribute("category", new CategoryEntity());
-        return "CategoryForm";
+        return "AddForms/addCategory";
     }
 
     @PostMapping("")
@@ -40,16 +40,12 @@ public class CategoryController {
         CategoryEntity category = categoryService.getCategoryById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("category", category);
-        return "editCategory";
+        return "EditForms/editCategory";
     }
 
     @PostMapping("/edit")
     public String updateCategory(@ModelAttribute("category") CategoryEntity category) {
-        try {
-            categoryService.getCategoryById(category.getIdCategory()).get();
-        } catch (Exception e) {
-            return "redirect:/categories";
-        }
+        categoryService.getCategoryById(category.getIdCategory()).get();
         categoryService.updateCategory(category);
         return "redirect:/categories";
     }
@@ -57,12 +53,8 @@ public class CategoryController {
     @GetMapping("/remove/{id}")
     public String deleteCategory(@PathVariable Long id) {
         CategoryEntity category = null;
-        try{
-            category = categoryService.getCategoryById(id).get();
-            categoryService.deleteCategory(category);
-        } catch (Exception e) {
-            return "redirect:/categories";
-        }
+        category = categoryService.getCategoryById(id).get();
+        categoryService.deleteCategory(category);
 
         return "redirect:/categories";
     }

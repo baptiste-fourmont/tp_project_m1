@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
-
 @Controller
 @RequestMapping("/warehouses")
 public class WarehouseController {
@@ -16,11 +14,10 @@ public class WarehouseController {
     @Autowired
     private WarehouseService warehouseService;
 
-
     @GetMapping("/new")
     public String showWarehouseForm(Model model) {
         model.addAttribute("warehouse", new WarehouseEntity());
-        return "WarehouseForm";
+        return "AddForms/addWarehouse";
     }
 
     @PostMapping("")
@@ -40,16 +37,13 @@ public class WarehouseController {
         WarehouseEntity warehouse = warehouseService.getWarehouseById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employé non trouvé avec l'ID: " + id));
         model.addAttribute("warehouse", warehouse);
-        return "editWarehouse";
+        return "EditForms/editWarehouse";
     }
 
     @PostMapping("/edit")
     public String updateWarehouse(@ModelAttribute("warehouse") WarehouseEntity warehouse) {
-        try {
-            warehouseService.getWarehouseById(warehouse.getIdWarehouse()).get();
-        } catch (Exception e) {
-            return "redirect:/warehouses";
-        }
+
+        warehouseService.getWarehouseById(warehouse.getIdWarehouse()).get();
         warehouseService.updateWarehouse(warehouse);
         return "redirect:/warehouses";
     }
@@ -57,12 +51,8 @@ public class WarehouseController {
     @GetMapping("/remove/{id}")
     public String deleteWarehouse(@PathVariable Long id) {
         WarehouseEntity warehouse = null;
-        try{
-            warehouse = warehouseService.getWarehouseById(id).get();
-            warehouseService.deleteWarehouse(warehouse);
-        } catch (Exception e) {
-            return "redirect:/warehouses";
-        }
+        warehouse = warehouseService.getWarehouseById(id).get();
+        warehouseService.deleteWarehouse(warehouse);
 
         return "redirect:/warehouses";
     }

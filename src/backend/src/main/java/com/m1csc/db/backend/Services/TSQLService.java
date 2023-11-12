@@ -5,7 +5,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -42,7 +41,6 @@ public class TSQLService {
     }
 
     public void executeCustomTransaction(String query) {
-
         jdbcTemplate.execute(query);
     }
 }

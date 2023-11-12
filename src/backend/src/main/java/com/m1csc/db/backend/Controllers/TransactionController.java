@@ -32,7 +32,7 @@ public class TransactionController {
         model.addAttribute("transaction", new TransactionEntity());
         model.addAttribute("products", transactionService.getProducts());
         model.addAttribute("employees", transactionService.getEmployees());
-        return "TransactionForm";
+        return "AddForms/addTransaction";
     }
 
     @PostMapping("")
@@ -56,16 +56,12 @@ public class TransactionController {
         model.addAttribute("transaction", transaction);
         model.addAttribute("products", transactionService.getProducts());
         model.addAttribute("employees", transactionService.getEmployees());
-        return "editTransaction";
+        return "EditForms/editTransaction";
     }
 
     @PostMapping("/edit")
     public String updateTransaction(@ModelAttribute("transaction") TransactionEntity transaction) {
-        try {
-            transactionService.getTransactionById(transaction.getIdTransaction()).get();
-        } catch (Exception e) {
-            return "redirect:/transactions";
-        }
+        transactionService.getTransactionById(transaction.getIdTransaction()).get();
         transactionService.updateTransaction(transaction);
         return "redirect:/transactions";
     }
@@ -73,15 +69,9 @@ public class TransactionController {
     @GetMapping("/remove/{id}")
     public String deleteTransaction(@PathVariable Long id) {
         TransactionEntity transaction = null;
-        try{
-            transaction = transactionService.getTransactionById(id).get();
-            transactionService.deleteTransaction(transaction);
-        } catch (Exception e) {
-            return "redirect:/transactions";
-        }
+        transaction = transactionService.getTransactionById(id).get();
+        transactionService.deleteTransaction(transaction);
 
         return "redirect:/transactions";
     }
-
-
 }
